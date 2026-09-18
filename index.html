@@ -856,14 +856,10 @@
       <p class="mt-5 text-ink-soft leading-relaxed">Sign in to manage site images, gallery images, publications and downloadable documents shown on the site.</p>
       <form id="admin-login-form" class="mt-8 space-y-4">
         <div>
-          <label class="tick text-ink-soft block mb-2" for="admin-email">Admin Email</label>
-          <input id="admin-email" type="email" required autocomplete="username" placeholder="you@hasag.org.gh" class="w-full border border-ink/20 rounded-lg px-4 py-3 bg-white focus:outline-none focus:border-crimson transition-colors" />
-        </div>
-        <div>
           <label class="tick text-ink-soft block mb-2" for="admin-pass">Password</label>
           <input id="admin-pass" type="password" required autocomplete="current-password" placeholder="••••••••" class="w-full border border-ink/20 rounded-lg px-4 py-3 bg-white focus:outline-none focus:border-crimson transition-colors" />
         </div>
-        <p id="admin-login-error" class="text-crimson text-sm hidden">Incorrect email or password.</p>
+        <p id="admin-login-error" class="text-crimson text-sm hidden">Incorrect password.</p>
         <button id="admin-login-submit" type="submit" class="btn inline-flex items-center gap-2.5 bg-ink text-paper px-7 py-3.5 rounded-lg font-bold text-sm">
           <span class="btn-fill bg-crimson"></span>
           <span>Sign In</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
@@ -1077,12 +1073,11 @@
    ══════════════════════════════════════════════════════════════ */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
 import {
-  getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut,
-  reauthenticateWithCredential, EmailAuthProvider, updatePassword
+  getAuth, onAuthStateChanged, signInAnonymously
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 import {
   getFirestore, collection, doc, addDoc, deleteDoc, setDoc, deleteField,
-  onSnapshot, query, orderBy, serverTimestamp, getDocs
+  onSnapshot, query, orderBy, serverTimestamp, getDocs, getDoc
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -1441,13 +1436,44 @@ onSnapshot(siteImagesCol, snapshot => {
   renderAdminSiteImages();
 }, err => console.error('Site images listener error', err));
 
-/* ───────── Admin: login gate (Firebase Authentication) ─────────
-   The admin console now requires a real Firebase Auth account —
-   verified server-side by Firebase, not a password compared in
-   this file's JavaScript. Create the admin's sign-in in the
-   Firebase Console under Authentication → Sign-in method → enable
-   "Email/Password" → Add user. There is no self-signup here, by
-   design: only accounts created in the console can sign in. */
+/* ───────── Admin: login gate (hashed password, stored in Firestore) ─────────
+   One shared password, checked here in the browser rather than by
+   a server — but the password itself is never stored or sent in
+   the clear. It's hashed with SHA-256 (Web Crypto, needs a secure
+   context: https:// or localhost) and only the hash lives in
+   Firestore, at config/adminAuth. The first time the app runs
+   with no such document, it seeds one from DEFAULT_ADMIN_PASSWORD
+   below — change that default, then change it again from the
+   dashboard.
+   Caveat: this still isn't real auth. There's no salt and no
+   rate-limiting, and anyone who loads the admin page signs in
+   anonymously (needed so Firestore's rules allow the write calls
+   below) — which also lets them read config/adminAuth and copy
+   the hash to attack offline. Swap in real server-verified auth
+   before this protects anything that actually matters. */
+const ADMIN_CONFIG_DOC = doc(db, 'config', 'adminAuth');
+const DEFAULT_ADMIN_PASSWORD = 'hasag-admin'; // TODO: change this
+async function sha256Hex(text) {
+  const bytes = new TextEncoder().encode(text);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', bytes);
+  return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+async function ensureAnonAuth() {
+  if (!auth.currentUser) await signInAnonymously(auth);
+}
+async function getAdminPasswordHash() {
+  await ensureAnonAuth();
+  const snap = await getDoc(ADMIN_CONFIG_DOC);
+  if (snap.exists() && snap.data().passwordHash) return snap.data().passwordHash;
+  const seededHash = await sha256Hex(DEFAULT_ADMIN_PASSWORD);
+  await setDoc(ADMIN_CONFIG_DOC, { passwordHash: seededHash });
+  return seededHash;
+}
+const ADMIN_SESSION_KEY = 'hasag-admin-unlocked';
+function isAdminUnlocked() {
+  return sessionStorage.getItem(ADMIN_SESSION_KEY) === '1';
+}
+
 const adminLoginView = document.getElementById('admin-login');
 const adminDashboard = document.getElementById('admin-dashboard');
 function showAdminDashboard() {
@@ -1459,17 +1485,21 @@ function showAdminDashboard() {
 function showAdminLogin() {
   adminDashboard.classList.add('hidden');
   adminLoginView.classList.remove('hidden');
-  document.getElementById('admin-email').value = '';
   document.getElementById('admin-pass').value = '';
   document.getElementById('admin-login-error').classList.add('hidden');
 }
+/* Firestore writes (and, here, the read of the password hash)
+   require *some* signed-in Firebase user under your security
+   rules, so an anonymous session is kept running quietly in the
+   background — it's not the admin gate, just plumbing. */
 onAuthStateChanged(auth, user => {
-  if (user) {
+  if (!user) {
+    signInAnonymously(auth).catch(err => console.error('Anonymous sign-in failed.', err));
+    return;
+  }
+  if (isAdminUnlocked()) {
     showAdminDashboard();
-    /* Seeding writes require an authenticated user under Firestore's
-       security rules, so this only ever runs once an admin is signed
-       in — never for anonymous visitors. Each collection is checked
-       once and only filled if it's genuinely empty. */
+    /* Each collection is checked once and only filled if genuinely empty. */
     seedDefaultsIfNeeded();
   } else {
     showAdminLogin();
@@ -1489,24 +1519,28 @@ document.getElementById('admin-login-form').addEventListener('submit', async e =
   e.preventDefault();
   const errorEl = document.getElementById('admin-login-error');
   const submitBtn = document.getElementById('admin-login-submit');
-  const email = document.getElementById('admin-email').value.trim();
   const password = document.getElementById('admin-pass').value;
   errorEl.classList.add('hidden');
   submitBtn.disabled = true;
   try {
-    await signInWithEmailAndPassword(auth, email, password);
-    /* onAuthStateChanged fires showAdminDashboard() automatically */
+    const [enteredHash, storedHash] = await Promise.all([sha256Hex(password), getAdminPasswordHash()]);
+    if (enteredHash !== storedHash) {
+      errorEl.textContent = 'Incorrect password.';
+      errorEl.classList.remove('hidden');
+    } else {
+      sessionStorage.setItem(ADMIN_SESSION_KEY, '1');
+      showAdminDashboard();
+    }
   } catch (err) {
-    console.error('Sign-in failed.', err);
-    errorEl.textContent = err.code === 'auth/too-many-requests'
-      ? 'Too many attempts — please wait a moment and try again.'
-      : 'Incorrect email or password.';
+    console.error('Could not verify password.', err);
+    errorEl.textContent = 'Could not verify password — please try again.';
     errorEl.classList.remove('hidden');
   }
   submitBtn.disabled = false;
 });
 document.getElementById('admin-logout').addEventListener('click', () => {
-  signOut(auth);
+  sessionStorage.removeItem(ADMIN_SESSION_KEY);
+  showAdminLogin();
 });
 
 document.getElementById('password-form').addEventListener('submit', async e => {
@@ -1529,27 +1563,20 @@ document.getElementById('password-form').addEventListener('submit', async e => {
     errorEl.classList.remove('hidden');
     return;
   }
-  const user = auth.currentUser;
-  if (!user) {
-    errorEl.textContent = 'You have been signed out — please sign in again.';
-    errorEl.classList.remove('hidden');
-    return;
-  }
   try {
-    /* Firebase requires a recent sign-in before allowing a password
-       change, so the current password is verified here by
-       re-authenticating against Firebase Auth itself — not compared
-       to anything stored in this file or in Firestore. */
-    const credential = EmailAuthProvider.credential(user.email, current);
-    await reauthenticateWithCredential(user, credential);
-    await updatePassword(user, next);
+    const [currentHash, storedHash] = await Promise.all([sha256Hex(current), getAdminPasswordHash()]);
+    if (currentHash !== storedHash) {
+      errorEl.textContent = 'Current password is incorrect.';
+      errorEl.classList.remove('hidden');
+      return;
+    }
+    const newHash = await sha256Hex(next);
+    await setDoc(ADMIN_CONFIG_DOC, { passwordHash: newHash });
     e.target.reset();
     successEl.classList.remove('hidden');
   } catch (err) {
     console.error('Could not update password.', err);
-    errorEl.textContent = (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential')
-      ? 'Current password is incorrect.'
-      : 'Could not update the password. Please try again.';
+    errorEl.textContent = 'Could not update the password. Please try again.';
     errorEl.classList.remove('hidden');
   }
 });
