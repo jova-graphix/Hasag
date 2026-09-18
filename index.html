@@ -847,8 +847,34 @@
 
 <section id="page-admin" class="page hidden">
 
+  <!-- ═══ FIRST-VISIT SETUP (no password set yet) ═══ -->
+  <div id="admin-setup" class="hidden min-h-[70vh] flex items-center max-w-[1280px] mx-auto px-5 sm:px-8 pt-40 sm:pt-44 pb-20">
+    <div class="max-w-md w-full">
+      <div class="w-13 h-13 p-3 rounded-xl bg-ink inline-flex items-center justify-center mb-7"><i data-lucide="key-round" class="w-6 h-6 text-gold-soft"></i></div>
+      <div class="tick text-gold mb-4">First-Time Setup</div>
+      <h1 class="font-display font-semibold text-4xl sm:text-5xl tracking-[-0.01em] leading-[1.05]">Create Admin <span class="font-serifit italic font-medium text-crimson">Password</span></h1>
+      <p class="mt-5 text-ink-soft leading-relaxed">No admin password has been set yet. Choose one now — it will be required to sign in here from now on, so keep it somewhere safe.</p>
+      <form id="admin-setup-form" class="mt-8 space-y-4">
+        <div>
+          <label class="tick text-ink-soft block mb-2" for="setup-pass">New Password</label>
+          <input id="setup-pass" type="password" required minlength="6" autocomplete="new-password" placeholder="••••••••" class="w-full border border-ink/20 rounded-lg px-4 py-3 bg-white focus:outline-none focus:border-crimson transition-colors" />
+        </div>
+        <div>
+          <label class="tick text-ink-soft block mb-2" for="setup-pass-confirm">Confirm Password</label>
+          <input id="setup-pass-confirm" type="password" required minlength="6" autocomplete="new-password" placeholder="••••••••" class="w-full border border-ink/20 rounded-lg px-4 py-3 bg-white focus:outline-none focus:border-crimson transition-colors" />
+        </div>
+        <p id="admin-setup-error" class="text-crimson text-sm hidden"></p>
+        <button id="admin-setup-submit" type="submit" class="btn inline-flex items-center gap-2.5 bg-ink text-paper px-7 py-3.5 rounded-lg font-bold text-sm">
+          <span class="btn-fill bg-crimson"></span>
+          <span>Set Password &amp; Sign In</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </form>
+      <a href="#home" data-route="home" class="inline-flex items-center gap-2.5 mt-9 font-semibold text-sm link-sweep"><i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Home</a>
+    </div>
+  </div>
+
   <!-- ═══ LOGIN GATE ═══ -->
-  <div id="admin-login" class="min-h-[70vh] flex items-center max-w-[1280px] mx-auto px-5 sm:px-8 pt-40 sm:pt-44 pb-20">
+  <div id="admin-login" class="hidden min-h-[70vh] flex items-center max-w-[1280px] mx-auto px-5 sm:px-8 pt-40 sm:pt-44 pb-20">
     <div class="max-w-md w-full">
       <div class="w-13 h-13 p-3 rounded-xl bg-ink inline-flex items-center justify-center mb-7"><i data-lucide="lock-keyhole" class="w-6 h-6 text-gold-soft"></i></div>
       <div class="tick text-gold mb-4">Restricted Access</div>
@@ -1441,18 +1467,23 @@ onSnapshot(siteImagesCol, snapshot => {
    a server — but the password itself is never stored or sent in
    the clear. It's hashed with SHA-256 (Web Crypto, needs a secure
    context: https:// or localhost) and only the hash lives in
-   Firestore, at config/adminAuth. The first time the app runs
-   with no such document, it seeds one from DEFAULT_ADMIN_PASSWORD
-   below — change that default, then change it again from the
-   dashboard.
+   Firestore, at config/adminAuth.
+   There's no password baked into the code: the very first visit to
+   this page (before config/adminAuth exists) shows a "create a
+   password" screen instead of a login screen. Whatever is entered
+   there is hashed and saved as config/adminAuth, and from then on
+   every visit — this browser or any other — is asked for that same
+   password to sign in.
    Caveat: this still isn't real auth. There's no salt and no
    rate-limiting, and anyone who loads the admin page signs in
    anonymously (needed so Firestore's rules allow the write calls
    below) — which also lets them read config/adminAuth and copy
    the hash to attack offline. Swap in real server-verified auth
-   before this protects anything that actually matters. */
+   before this protects anything that actually matters. Also, since
+   there's no server gate, whoever completes the first-visit setup
+   screen first is the one who ends up owning the password — don't
+   deploy this publicly before you've set it yourself. */
 const ADMIN_CONFIG_DOC = doc(db, 'config', 'adminAuth');
-const DEFAULT_ADMIN_PASSWORD = 'hasag-admin'; // TODO: change this
 async function sha256Hex(text) {
   const bytes = new TextEncoder().encode(text);
   const hashBuffer = await crypto.subtle.digest('SHA-256', bytes);
@@ -1461,22 +1492,23 @@ async function sha256Hex(text) {
 async function ensureAnonAuth() {
   if (!auth.currentUser) await signInAnonymously(auth);
 }
+/* Returns the stored password hash, or null if no password has
+   ever been set (first visit). Does NOT seed a default anymore. */
 async function getAdminPasswordHash() {
   await ensureAnonAuth();
   const snap = await getDoc(ADMIN_CONFIG_DOC);
-  if (snap.exists() && snap.data().passwordHash) return snap.data().passwordHash;
-  const seededHash = await sha256Hex(DEFAULT_ADMIN_PASSWORD);
-  await setDoc(ADMIN_CONFIG_DOC, { passwordHash: seededHash });
-  return seededHash;
+  return (snap.exists() && snap.data().passwordHash) ? snap.data().passwordHash : null;
 }
 const ADMIN_SESSION_KEY = 'hasag-admin-unlocked';
 function isAdminUnlocked() {
   return sessionStorage.getItem(ADMIN_SESSION_KEY) === '1';
 }
 
+const adminSetupView = document.getElementById('admin-setup');
 const adminLoginView = document.getElementById('admin-login');
 const adminDashboard = document.getElementById('admin-dashboard');
 function showAdminDashboard() {
+  adminSetupView.classList.add('hidden');
   adminLoginView.classList.add('hidden');
   adminDashboard.classList.remove('hidden');
   renderAdminSiteImages(); renderAdminGallery(); renderAdminPubs(); renderAdminDocs();
@@ -1484,9 +1516,18 @@ function showAdminDashboard() {
 }
 function showAdminLogin() {
   adminDashboard.classList.add('hidden');
+  adminSetupView.classList.add('hidden');
   adminLoginView.classList.remove('hidden');
   document.getElementById('admin-pass').value = '';
   document.getElementById('admin-login-error').classList.add('hidden');
+}
+function showAdminSetup() {
+  adminDashboard.classList.add('hidden');
+  adminLoginView.classList.add('hidden');
+  adminSetupView.classList.remove('hidden');
+  document.getElementById('setup-pass').value = '';
+  document.getElementById('setup-pass-confirm').value = '';
+  document.getElementById('admin-setup-error').classList.add('hidden');
 }
 /* Firestore writes (and, here, the read of the password hash)
    require *some* signed-in Firebase user under your security
@@ -1502,7 +1543,9 @@ onAuthStateChanged(auth, user => {
     /* Each collection is checked once and only filled if genuinely empty. */
     seedDefaultsIfNeeded();
   } else {
-    showAdminLogin();
+    getAdminPasswordHash()
+      .then(hash => hash ? showAdminLogin() : showAdminSetup())
+      .catch(err => { console.error('Could not check admin password state.', err); showAdminLogin(); });
   }
 });
 async function seedDefaultsIfNeeded() {
@@ -1515,6 +1558,48 @@ async function seedDefaultsIfNeeded() {
   }
 }
 
+document.getElementById('admin-setup-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const errorEl = document.getElementById('admin-setup-error');
+  const submitBtn = document.getElementById('admin-setup-submit');
+  const password = document.getElementById('setup-pass').value;
+  const confirm = document.getElementById('setup-pass-confirm').value;
+  errorEl.classList.add('hidden');
+  if (password.length < 6) {
+    errorEl.textContent = 'Password must be at least 6 characters.';
+    errorEl.classList.remove('hidden');
+    return;
+  }
+  if (password !== confirm) {
+    errorEl.textContent = 'Password and confirmation do not match.';
+    errorEl.classList.remove('hidden');
+    return;
+  }
+  submitBtn.disabled = true;
+  try {
+    await ensureAnonAuth();
+    /* Guard against a race with another tab/visitor also on the
+       setup screen: re-check right before writing, so whoever
+       writes second doesn't silently overwrite the first password. */
+    const existing = await getAdminPasswordHash();
+    if (existing) {
+      errorEl.textContent = 'A password has already been set — please sign in instead.';
+      errorEl.classList.remove('hidden');
+      showAdminLogin();
+      return;
+    }
+    const hash = await sha256Hex(password);
+    await setDoc(ADMIN_CONFIG_DOC, { passwordHash: hash });
+    sessionStorage.setItem(ADMIN_SESSION_KEY, '1');
+    showAdminDashboard();
+  } catch (err) {
+    console.error('Could not set admin password.', err);
+    errorEl.textContent = 'Could not set password — please try again.';
+    errorEl.classList.remove('hidden');
+  }
+  submitBtn.disabled = false;
+});
+
 document.getElementById('admin-login-form').addEventListener('submit', async e => {
   e.preventDefault();
   const errorEl = document.getElementById('admin-login-error');
@@ -1524,7 +1609,10 @@ document.getElementById('admin-login-form').addEventListener('submit', async e =
   submitBtn.disabled = true;
   try {
     const [enteredHash, storedHash] = await Promise.all([sha256Hex(password), getAdminPasswordHash()]);
-    if (enteredHash !== storedHash) {
+    if (!storedHash) {
+      /* Password got cleared/never made it — send them to setup. */
+      showAdminSetup();
+    } else if (enteredHash !== storedHash) {
       errorEl.textContent = 'Incorrect password.';
       errorEl.classList.remove('hidden');
     } else {
