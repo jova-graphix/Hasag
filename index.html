@@ -874,7 +874,7 @@
   </div>
 
   <!-- ═══ LOGIN GATE ═══ -->
-  <div id="admin-login" class="hidden min-h-[70vh] flex items-center max-w-[1280px] mx-auto px-5 sm:px-8 pt-40 sm:pt-44 pb-20">
+  <div id="admin-login" class="min-h-[70vh] flex items-center max-w-[1280px] mx-auto px-5 sm:px-8 pt-40 sm:pt-44 pb-20">
     <div class="max-w-md w-full">
       <div class="w-13 h-13 p-3 rounded-xl bg-ink inline-flex items-center justify-center mb-7"><i data-lucide="lock-keyhole" class="w-6 h-6 text-gold-soft"></i></div>
       <div class="tick text-gold mb-4">Restricted Access</div>
@@ -1542,11 +1542,15 @@ onAuthStateChanged(auth, user => {
     showAdminDashboard();
     /* Each collection is checked once and only filled if genuinely empty. */
     seedDefaultsIfNeeded();
-  } else {
-    getAdminPasswordHash()
-      .then(hash => hash ? showAdminLogin() : showAdminSetup())
-      .catch(err => { console.error('Could not check admin password state.', err); showAdminLogin(); });
+    return;
   }
+  /* The login form is already the visible default in the HTML, so
+     the page never renders blank while this check is in flight (or
+     if it fails/hangs) — it only swaps to the setup screen once we
+     positively confirm no password has been set yet. */
+  getAdminPasswordHash()
+    .then(hash => { if (!hash) showAdminSetup(); })
+    .catch(err => console.error('Could not check admin password state.', err));
 });
 async function seedDefaultsIfNeeded() {
   try {
