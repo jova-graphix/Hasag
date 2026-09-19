@@ -3,6 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+  /* Safety net: prevents sideways scroll on mobile if Tailwind's
+     runtime compiler hasn't finished (or fails to load) before
+     images/layout paint. */
+  html, body { max-width: 100%; overflow-x: hidden; }
+  img { max-width: 100%; height: auto; }
+</style>
 <title>HASAG — Health Accounting Staff Association of Ghana</title>
 <meta name="description" content="Health Accounting Staff Association of Ghana — Hasag ·· Integrity. The professional body for health accounting staff across Ghana." />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23100E0B'/%3E%3Ctext x='32' y='43' font-family='Georgia, serif' font-weight='700' font-size='32' fill='%23C6A032' text-anchor='middle'%3EH%3C/text%3E%3Ccircle cx='50' cy='15' r='6' fill='%23CE1126'/%3E%3C/svg%3E" />
@@ -182,7 +189,7 @@
   <div class="relative overflow-hidden">
     <div class="absolute -top-24 -right-32 w-[420px] h-[420px] rounded-full bg-gold/15 blur-[110px] pointer-events-none"></div>
 
-    <div class="relative max-w-[1280px] mx-auto px-5 sm:px-8 pt-32 sm:pt-36 lg:pt-44 pb-14 lg:pb-20 grid lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+    <div class="relative max-w-[1280px] mx-auto px-5 sm:px-8 pt-24 sm:pt-32 lg:pt-40 pb-14 lg:pb-20 grid lg:grid-cols-12 gap-12 lg:gap-14 items-center">
       <!-- Copy -->
       <div class="lg:col-span-7">
         <div class="reveal inline-flex items-center gap-2.5 border border-ink/15 bg-white/70 rounded-full px-4 py-2 mb-7">
@@ -260,18 +267,8 @@
     </div>
     <div class="marquee relative flex-1 overflow-hidden py-3.5">
       <div class="marquee-track items-center">
-        <div class="flex items-center shrink-0">
-          <span class="mx-7 inline-flex items-center gap-3 text-sm text-paper/85"><span class="tick text-gold-soft" style="font-size:10px">12–14 Dec</span> 13th Biennial National Congress — Great Hall, KNUST, Kumasi</span><span class="text-gold/70">◆</span>
-          <span class="mx-7 inline-flex items-center gap-3 text-sm text-paper/85"><span class="tick text-gold-soft" style="font-size:10px">31 Oct</span> 2026 membership renewal closes — contact your regional secretary</span><span class="text-gold/70">◆</span>
-          <span class="mx-7 inline-flex items-center gap-3 text-sm text-paper/85"><span class="tick text-gold-soft" style="font-size:10px">Open</span> GIFMIS advanced training registration now open for all regions</span><span class="text-gold/70">◆</span>
-          <span class="mx-7 inline-flex items-center gap-3 text-sm text-paper/85"><span class="tick text-gold-soft" style="font-size:10px">2026</span> Welfare benefit claim forms available at the national secretariat</span><span class="text-gold/70">◆</span>
-        </div>
-        <div class="flex items-center shrink-0" aria-hidden="true">
-          <span class="mx-7 inline-flex items-center gap-3 text-sm text-paper/85"><span class="tick text-gold-soft" style="font-size:10px">12–14 Dec</span> 13th Biennial National Congress — Great Hall, KNUST, Kumasi</span><span class="text-gold/70">◆</span>
-          <span class="mx-7 inline-flex items-center gap-3 text-sm text-paper/85"><span class="tick text-gold-soft" style="font-size:10px">31 Oct</span> 2026 membership renewal closes — contact your regional secretary</span><span class="text-gold/70">◆</span>
-          <span class="mx-7 inline-flex items-center gap-3 text-sm text-paper/85"><span class="tick text-gold-soft" style="font-size:10px">Open</span> GIFMIS advanced training registration now open for all regions</span><span class="text-gold/70">◆</span>
-          <span class="mx-7 inline-flex items-center gap-3 text-sm text-paper/85"><span class="tick text-gold-soft" style="font-size:10px">2026</span> Welfare benefit claim forms available at the national secretariat</span><span class="text-gold/70">◆</span>
-        </div>
+        <div id="notice-track-a" class="flex items-center shrink-0"><!-- populated by renderNoticeTicker() --></div>
+        <div id="notice-track-b" class="flex items-center shrink-0" aria-hidden="true"><!-- populated by renderNoticeTicker() --></div>
       </div>
     </div>
   </div>
@@ -490,8 +487,13 @@
       </a>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-5 sm:gap-6" id="home-pub-grid" data-max="3">
-      <!-- populated dynamically by renderPublications() -->
+    <div class="grid lg:grid-cols-12 gap-6 lg:gap-8">
+      <div class="lg:col-span-7" id="home-pub-featured">
+        <!-- populated dynamically by renderPublications() -->
+      </div>
+      <div class="lg:col-span-5 flex flex-col" id="home-pub-list">
+        <!-- populated dynamically by renderPublications() -->
+      </div>
     </div>
   </div>
 
@@ -539,7 +541,7 @@
   <!-- ————— HERO ————— -->
   <div class="relative overflow-hidden">
     <div class="absolute -top-24 -left-32 w-[420px] h-[420px] rounded-full bg-crimson/10 blur-[110px] pointer-events-none"></div>
-    <div class="relative max-w-[1280px] mx-auto px-5 sm:px-8 pt-32 sm:pt-36 lg:pt-44 pb-16 lg:pb-20 grid lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+    <div class="relative max-w-[1280px] mx-auto px-5 sm:px-8 pt-24 sm:pt-32 lg:pt-40 pb-16 lg:pb-20 grid lg:grid-cols-12 gap-12 lg:gap-14 items-center">
       <div class="lg:col-span-7">
         <div class="reveal w-13 h-13 p-3 rounded-xl bg-crimson/10 inline-flex items-center justify-center mb-7"><i data-lucide="book-open" class="w-6 h-6 text-crimson"></i></div>
         <div class="reveal tick text-gold mb-4" style="transition-delay:60ms">About</div>
@@ -730,7 +732,7 @@
 <section id="page-executives" class="page hidden">
   <!-- ————— Page Header ————— -->
   <div class="relative overflow-hidden">
-    <div class="relative max-w-[1280px] mx-auto px-5 sm:px-8 pt-36 sm:pt-44 lg:pt-48 pb-14 lg:pb-20">
+    <div class="relative max-w-[1280px] mx-auto px-5 sm:px-8 pt-24 sm:pt-32 lg:pt-40 pb-14 lg:pb-20">
       <div class="grid lg:grid-cols-12 gap-10 items-end">
         <div class="lg:col-span-8">
           <div class="reveal flex items-center gap-3 mb-5">
@@ -969,7 +971,7 @@
 </section>
 
 <section id="page-forms" class="page hidden">
-  <div class="max-w-[1280px] mx-auto px-5 sm:px-8 pt-40 sm:pt-44 pb-24">
+  <div class="max-w-[1280px] mx-auto px-5 sm:px-8 pt-24 sm:pt-28 pb-24">
     <div class="max-w-2xl mb-12">
       <div class="w-13 h-13 p-3 rounded-xl bg-crimson/10 inline-flex items-center justify-center mb-7"><i data-lucide="file-down" class="w-6 h-6 text-crimson"></i></div>
       <div class="tick text-gold mb-4">Documents</div>
@@ -983,7 +985,7 @@
 </section>
 
 <section id="page-publications" class="page hidden">
-  <div class="max-w-[1280px] mx-auto px-5 sm:px-8 pt-40 sm:pt-44 pb-24">
+  <div class="max-w-[1280px] mx-auto px-5 sm:px-8 pt-24 sm:pt-28 pb-24">
     <div class="max-w-2xl mb-12">
       <div class="w-13 h-13 p-3 rounded-xl bg-gold/15 inline-flex items-center justify-center mb-7"><i data-lucide="newspaper" class="w-6 h-6 text-gold"></i></div>
       <div class="tick text-gold mb-4">Library</div>
@@ -997,7 +999,7 @@
 </section>
 
 <section id="page-gallery" class="page hidden">
-  <div class="max-w-[1280px] mx-auto px-5 sm:px-8 pt-40 sm:pt-44 pb-24">
+  <div class="max-w-[1280px] mx-auto px-5 sm:px-8 pt-24 sm:pt-28 pb-24">
     <div class="max-w-2xl mb-12">
       <div class="w-13 h-13 p-3 rounded-xl bg-crimson/10 inline-flex items-center justify-center mb-7"><i data-lucide="images" class="w-6 h-6 text-crimson"></i></div>
       <div class="tick text-gold mb-4">Archive</div>
@@ -1015,7 +1017,7 @@
   <!-- ————— HERO ————— -->
   <div class="relative overflow-hidden">
     <div class="absolute -top-24 -right-32 w-[420px] h-[420px] rounded-full bg-gold/15 blur-[110px] pointer-events-none"></div>
-    <div class="relative max-w-[1280px] mx-auto px-5 sm:px-8 pt-32 sm:pt-36 lg:pt-44 pb-14 lg:pb-16">
+    <div class="relative max-w-[1280px] mx-auto px-5 sm:px-8 pt-24 sm:pt-28 lg:pt-32 pb-14 lg:pb-16">
       <div class="max-w-2xl">
         <div class="reveal w-13 h-13 p-3 rounded-xl bg-gold/15 inline-flex items-center justify-center mb-7"><i data-lucide="mail" class="w-6 h-6 text-gold"></i></div>
         <div class="reveal tick text-gold mb-4" style="transition-delay:60ms">Reach Us</div>
@@ -1131,7 +1133,7 @@
 <section id="page-admin" class="page hidden">
 
   <!-- ═══ FIRST-VISIT SETUP (no password set yet) ═══ -->
-  <div id="admin-setup" class="hidden min-h-[70vh] flex items-center max-w-[1280px] mx-auto px-5 sm:px-8 pt-40 sm:pt-44 pb-20">
+  <div id="admin-setup" class="hidden min-h-[70vh] flex items-center max-w-[1280px] mx-auto px-5 sm:px-8 pt-24 sm:pt-28 pb-20">
     <div class="max-w-md w-full">
       <div class="w-13 h-13 p-3 rounded-xl bg-ink inline-flex items-center justify-center mb-7"><i data-lucide="key-round" class="w-6 h-6 text-gold-soft"></i></div>
       <div class="tick text-gold mb-4">First-Time Setup</div>
@@ -1156,7 +1158,7 @@
   </div>
 
   <!-- ═══ LOGIN GATE ═══ -->
-  <div id="admin-login" class="min-h-[70vh] flex items-center max-w-[1280px] mx-auto px-5 sm:px-8 pt-40 sm:pt-44 pb-20">
+  <div id="admin-login" class="min-h-[70vh] flex items-center max-w-[1280px] mx-auto px-5 sm:px-8 pt-24 sm:pt-28 pb-20">
     <div class="max-w-md w-full">
       <div class="w-13 h-13 p-3 rounded-xl bg-ink inline-flex items-center justify-center mb-7"><i data-lucide="lock-keyhole" class="w-6 h-6 text-gold-soft"></i></div>
       <div class="tick text-gold mb-4">Restricted Access</div>
@@ -1177,7 +1179,7 @@
   </div>
 
   <!-- ═══ DASHBOARD ═══ -->
-  <div id="admin-dashboard" class="hidden max-w-[1280px] mx-auto px-5 sm:px-8 pt-32 sm:pt-40 pb-24">
+  <div id="admin-dashboard" class="hidden max-w-[1280px] mx-auto px-5 sm:px-8 pt-24 sm:pt-28 pb-24">
     <div class="flex flex-wrap items-end justify-between gap-6 mb-10">
       <div>
         <div class="tick text-gold mb-4">Admin Console</div>
@@ -1216,6 +1218,24 @@
           <i data-lucide="check" class="w-4 h-4"></i> Update Password
         </button>
       </form>
+    </div>
+
+    <!-- Notices manager -->
+    <div class="mb-16">
+      <div class="flex items-center gap-3 mb-2">
+        <i data-lucide="megaphone" class="w-5 h-5 text-crimson"></i>
+        <h2 class="font-display font-semibold text-2xl">Notices</h2>
+      </div>
+      <p class="text-sm text-ink-soft mb-6 max-w-2xl">The scrolling notice ticker shown at the top of the home page, right under the header.</p>
+      <form id="notice-form" class="grid sm:grid-cols-[150px_1fr_auto] gap-3 bg-white border border-ink/10 rounded-xl p-5 mb-6">
+        <input type="text" id="notice-date" placeholder="Date label, e.g. 12–14 Dec" required maxlength="24" class="border border-ink/20 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-crimson" />
+        <input type="text" id="notice-text" placeholder="Notice text" required class="border border-ink/20 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-crimson" />
+        <div class="flex items-center gap-2">
+          <button type="submit" class="btn flex-1 inline-flex items-center justify-center gap-2 bg-crimson text-paper px-5 py-2.5 rounded-lg font-semibold text-sm whitespace-nowrap"><span class="btn-fill bg-ink"></span><i data-lucide="plus" class="w-4 h-4"></i> <span id="notice-submit-label">Add Notice</span></button>
+          <button type="button" id="notice-cancel" class="hidden w-10 h-10 shrink-0 rounded-lg border border-ink/20 flex items-center justify-center hover:border-crimson hover:text-crimson" aria-label="Cancel edit" title="Cancel edit"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
+      </form>
+      <div id="admin-notice-list" class="space-y-2.5"><!-- populated by renderAdminNotices() --></div>
     </div>
 
     <!-- Site Images manager -->
@@ -1258,7 +1278,10 @@
       </div>
       <form id="pub-form" class="bg-white border border-ink/10 rounded-xl p-5 mb-6 space-y-3">
         <div class="grid sm:grid-cols-2 gap-3">
-          <input type="file" id="pub-file" accept="image/*" required class="text-sm file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-ink file:text-paper file:text-xs file:font-semibold file:cursor-pointer" />
+          <div>
+            <input type="file" id="pub-file" accept="image/*" class="text-sm file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-ink file:text-paper file:text-xs file:font-semibold file:cursor-pointer" />
+            <p id="pub-file-hint" class="hidden text-[11px] text-ink-soft mt-1.5">Leave empty to keep the current image.</p>
+          </div>
           <select id="pub-tag" class="border border-ink/20 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-crimson">
             <option value="Newsletter">Newsletter</option>
             <option value="Article">Article</option>
@@ -1270,7 +1293,10 @@
           <input type="text" id="pub-meta" placeholder="Meta line, e.g. Vol. 13 · Q1 2027" required class="border border-ink/20 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-crimson" />
           <input type="text" id="pub-author" placeholder="Attributed to, e.g. National Secretariat" required class="border border-ink/20 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-crimson" />
         </div>
-        <button type="submit" class="btn inline-flex items-center justify-center gap-2 bg-crimson text-paper px-5 py-2.5 rounded-lg font-semibold text-sm"><span class="btn-fill bg-ink"></span><i data-lucide="upload" class="w-4 h-4"></i> Add Publication</button>
+        <div class="flex items-center gap-2">
+          <button type="submit" class="btn flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-crimson text-paper px-5 py-2.5 rounded-lg font-semibold text-sm"><span class="btn-fill bg-ink"></span><i data-lucide="upload" class="w-4 h-4"></i> <span id="pub-submit-label">Add Publication</span></button>
+          <button type="button" id="pub-cancel" class="hidden w-10 h-10 shrink-0 rounded-lg border border-ink/20 flex items-center justify-center hover:border-crimson hover:text-crimson" aria-label="Cancel edit" title="Cancel edit"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
       </form>
       <div id="admin-pub-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"><!-- populated by renderAdminPubs() --></div>
     </div>
@@ -1368,6 +1394,30 @@
   </div>
 </footer>
 
+<!-- ═══ PUBLICATION LIGHTBOX ═══ -->
+<div id="pub-lightbox" class="hidden fixed inset-0 z-[200] bg-ink/90 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8">
+  <div class="relative bg-paper rounded-2xl overflow-hidden max-w-3xl w-full max-h-[90vh] flex flex-col">
+    <button type="button" data-close-pub-lightbox aria-label="Close" class="absolute top-3 right-3 z-10 w-10 h-10 rounded-lg bg-ink/70 text-paper flex items-center justify-center hover:bg-crimson transition-colors">
+      <i data-lucide="x" class="w-5 h-5"></i>
+    </button>
+    <div class="overflow-y-auto">
+      <img id="pub-lightbox-img" src="" alt="" class="w-full h-auto max-h-[55vh] object-contain bg-cream" />
+      <div class="p-6 sm:p-8">
+        <span id="pub-lightbox-tag" class="tick px-3 py-1.5 rounded-md inline-block mb-4" style="font-size:9px"></span>
+        <h2 id="pub-lightbox-title" class="font-display font-semibold text-2xl sm:text-3xl leading-snug mb-3"></h2>
+        <div class="flex items-center gap-2 text-sm text-ink-soft mb-6"><i data-lucide="calendar" class="w-4 h-4 text-gold"></i> <span id="pub-lightbox-meta"></span></div>
+        <div class="flex flex-wrap items-center justify-between gap-4 pt-5 border-t border-ink/10">
+          <span class="text-sm text-ink-soft">By <span id="pub-lightbox-author" class="font-medium text-ink"></span></span>
+          <a id="pub-lightbox-download" href="#" download class="btn inline-flex items-center gap-2 bg-ink text-paper px-5 py-2.5 rounded-lg font-semibold text-sm">
+            <span class="btn-fill bg-crimson"></span>
+            <i data-lucide="download" class="w-4 h-4"></i> Download Image
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="module">
 /* ══════════════════════════════════════════════════════════════
    FIREBASE — Firestore-backed content store
@@ -1382,7 +1432,7 @@ import {
   getAuth, onAuthStateChanged, signInAnonymously
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 import {
-  getFirestore, collection, doc, addDoc, deleteDoc, setDoc, deleteField,
+  getFirestore, collection, doc, addDoc, deleteDoc, setDoc, updateDoc, deleteField,
   onSnapshot, query, orderBy, serverTimestamp, getDocs, getDoc
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
@@ -1402,6 +1452,7 @@ const galleryCol = collection(db, 'gallery');
 const pubsCol    = collection(db, 'publications');
 const docsCol    = collection(db, 'documents');
 const siteImagesCol = collection(db, 'siteImages');
+const noticesCol = collection(db, 'notices');
 
 /* Fixed photo + text slots used elsewhere on the site (home page +
    executive team). Each has a stable key matching the id="site-img-<key>"
@@ -1503,9 +1554,15 @@ const SEED_CONTENT = {
     { label: 'Membership Form', icon: 'file-text', filename: null, data: null },
     { label: 'Constitution', icon: 'scroll-text', filename: null, data: null },
     { label: 'Welfare Benefit Form', icon: 'heart-handshake', filename: null, data: null }
+  ],
+  notices: [
+    { date: '12–14 Dec', text: '13th Biennial National Congress — Great Hall, KNUST, Kumasi' },
+    { date: '31 Oct', text: '2026 membership renewal closes — contact your regional secretary' },
+    { date: 'Open', text: 'GIFMIS advanced training registration now open for all regions' },
+    { date: '2026', text: 'Welfare benefit claim forms available at the national secretariat' }
   ]
 };
-const seededAlready = { gallery: false, publications: false, documents: false };
+const seededAlready = { gallery: false, publications: false, documents: false, notices: false };
 async function seedIfEmpty(name, col, snapshot) {
   if (seededAlready[name] || !snapshot.empty) { seededAlready[name] = true; return; }
   seededAlready[name] = true;
@@ -1535,7 +1592,48 @@ function escapeHTML(str) {
   return d.innerHTML;
 }
 
-let siteContent = { gallery: [], publications: [], documents: [], siteImages: {} };
+let siteContent = { gallery: [], publications: [], documents: [], siteImages: {}, notices: [] };
+
+/* ───────── Render: Notice ticker (home page, under the header) ───────── */
+function noticeSpanHTML(item) {
+  return `<span class="mx-7 inline-flex items-center gap-3 text-sm text-paper/85"><span class="tick text-gold-soft" style="font-size:10px">${escapeHTML(item.date)}</span> ${escapeHTML(item.text)}</span><span class="text-gold/70">◆</span>`;
+}
+function renderNoticeTicker() {
+  const trackA = document.getElementById('notice-track-a');
+  const trackB = document.getElementById('notice-track-b');
+  if (!trackA || !trackB) return;
+  if (!siteContent.notices.length) {
+    trackA.innerHTML = `<span class="mx-7 text-sm text-paper/60">No notices at this time.</span>`;
+    trackB.innerHTML = '';
+    return;
+  }
+  // Only the most recent handful ever runs in the ticker — as more notices
+  // pile up in Firestore the home page stays calm instead of turning into
+  // an ever-longer scroll of everything ever posted.
+  const recent = siteContent.notices.slice(-6);
+  const html = recent.map(noticeSpanHTML).join('');
+  trackA.innerHTML = html;
+  trackB.innerHTML = html;
+}
+function noticeAdminItemHTML(item) {
+  return `
+    <div class="bg-white border border-ink/10 rounded-lg pl-4 pr-2.5 py-2.5 flex items-center gap-4">
+      <span class="tick text-gold shrink-0" style="font-size:10px; min-width:72px">${escapeHTML(item.date)}</span>
+      <span class="text-sm flex-1 min-w-0 truncate">${escapeHTML(item.text)}</span>
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button data-edit-notice="${item.id}" class="w-8 h-8 rounded-lg border border-ink/15 flex items-center justify-center hover:border-crimson hover:text-crimson" aria-label="Edit notice"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+        <button data-remove-notice="${item.id}" class="w-8 h-8 rounded-lg border border-ink/15 flex items-center justify-center hover:border-crimson hover:text-crimson" aria-label="Remove notice"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+      </div>
+    </div>`;
+}
+function renderAdminNotices() {
+  const el = document.getElementById('admin-notice-list');
+  if (!el) return;
+  el.innerHTML = siteContent.notices.length
+    ? siteContent.notices.map(noticeAdminItemHTML).join('')
+    : `<p class="text-ink-soft text-sm">No notices yet — add one above.</p>`;
+  lucide.createIcons();
+}
 
 /* ───────── Render: Gallery (home strip + full page) ───────── */
 function galleryCardHTML(item, variant) {
@@ -1576,25 +1674,72 @@ function pubCardHTML(item, withDelete) {
       <div class="relative overflow-hidden aspect-[16/10] bg-cream">
         <img src="${item.image}" alt="${escapeHTML(item.title)}" class="w-full h-full object-cover" loading="lazy" />
         <span class="absolute top-4 left-4 tick ${badge} px-3 py-1.5 rounded-md" style="font-size:9px">${escapeHTML(item.tag)}</span>
-        ${withDelete ? `<button data-remove-pub="${item.id}" class="absolute top-4 right-4 w-8 h-8 rounded-lg bg-ink/80 text-paper flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity" aria-label="Remove publication"><i data-lucide="trash-2" class="w-4 h-4"></i></button>` : ''}
+        ${withDelete ? `
+        <div class="absolute top-4 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button data-edit-pub="${item.id}" class="w-8 h-8 rounded-lg bg-ink/80 text-paper flex items-center justify-center" aria-label="Edit publication"><i data-lucide="pencil" class="w-4 h-4"></i></button>
+          <button data-remove-pub="${item.id}" class="w-8 h-8 rounded-lg bg-ink/80 text-paper flex items-center justify-center" aria-label="Remove publication"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+        </div>` : ''}
       </div>
       <div class="p-6">
         <div class="flex items-center gap-2 text-xs text-ink-soft mb-3"><i data-lucide="calendar" class="w-3.5 h-3.5 text-gold"></i> ${escapeHTML(item.meta)}</div>
         <h3 class="font-display font-semibold text-xl leading-snug">${escapeHTML(item.title)}</h3>
         <div class="mt-5 pt-4 border-t border-ink/10 flex items-center justify-between">
           <span class="text-xs text-ink-soft">${escapeHTML(item.author)}</span>
-          <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-crimson">Read <i data-lucide="arrow-right" class="w-4 h-4"></i></span>
+          <button type="button" data-view-pub="${item.id}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-crimson hover:gap-2.5 transition-all duration-200">Read <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
         </div>
       </div>
     </article>`;
 }
+/* Home page preview: one featured publication (the most recent) plus a
+   short, quiet list of the next few — a single focal point reads as more
+   curated than a wall of equal-weight cards. */
+function pubFeaturedCardHTML(item) {
+  const badge = TAG_STYLE[item.tag] || 'bg-ink text-paper';
+  return `
+    <article class="pub-card pro-card bg-white border border-ink/10 rounded-2xl overflow-hidden h-full flex flex-col">
+      <div class="relative overflow-hidden aspect-[16/10] bg-cream">
+        <img src="${item.image}" alt="${escapeHTML(item.title)}" class="w-full h-full object-cover" loading="lazy" />
+        <span class="absolute top-4 left-4 tick ${badge} px-3 py-1.5 rounded-md" style="font-size:9px">${escapeHTML(item.tag)}</span>
+      </div>
+      <div class="p-6 sm:p-8 flex-1 flex flex-col">
+        <div class="flex items-center gap-2 text-xs text-ink-soft mb-3"><i data-lucide="calendar" class="w-3.5 h-3.5 text-gold"></i> ${escapeHTML(item.meta)}</div>
+        <h3 class="font-display font-semibold text-2xl sm:text-3xl leading-snug">${escapeHTML(item.title)}</h3>
+        <div class="mt-auto pt-6 flex items-center justify-between">
+          <span class="text-xs text-ink-soft">${escapeHTML(item.author)}</span>
+          <button type="button" data-view-pub="${item.id}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-crimson hover:gap-2.5 transition-all duration-200">Read <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+        </div>
+      </div>
+    </article>`;
+}
+function pubCompactRowHTML(item) {
+  const badge = TAG_STYLE[item.tag] || 'bg-ink text-paper';
+  return `
+    <button type="button" data-view-pub="${item.id}" class="svc-row group flex items-center gap-4 py-4 border-b border-ink/10 w-full text-left">
+      <div class="w-20 h-16 sm:w-24 sm:h-[4.5rem] rounded-lg overflow-hidden bg-cream shrink-0">
+        <img src="${item.image}" alt="${escapeHTML(item.title)}" class="w-full h-full object-cover" loading="lazy" />
+      </div>
+      <div class="min-w-0 flex-1">
+        <span class="tick ${badge} px-2 py-1 rounded" style="font-size:8px">${escapeHTML(item.tag)}</span>
+        <h4 class="font-display font-semibold text-[15px] leading-snug mt-1.5 truncate group-hover:text-crimson transition-colors">${escapeHTML(item.title)}</h4>
+        <div class="text-xs text-ink-soft mt-1">${escapeHTML(item.meta)}</div>
+      </div>
+      <i data-lucide="arrow-right" class="w-4 h-4 text-ink-soft shrink-0 group-hover:text-crimson transition-colors"></i>
+    </button>`;
+}
 function renderPublications() {
-  const home = document.getElementById('home-pub-grid');
-  if (home) {
-    const max = +home.dataset.max || 3;
-    home.innerHTML = siteContent.publications.length
-      ? siteContent.publications.slice(0, max).map(i => pubCardHTML(i, false)).join('')
-      : `<p class="text-ink-soft text-sm py-6 col-span-full">No publications yet.</p>`;
+  const featuredEl = document.getElementById('home-pub-featured');
+  const listEl = document.getElementById('home-pub-list');
+  if (featuredEl && listEl) {
+    if (siteContent.publications.length) {
+      const [first, ...rest] = siteContent.publications;
+      featuredEl.innerHTML = pubFeaturedCardHTML(first);
+      listEl.innerHTML = rest.length
+        ? rest.slice(0, 3).map(pubCompactRowHTML).join('')
+        : `<p class="text-ink-soft text-sm py-6">More publications will appear here.</p>`;
+    } else {
+      featuredEl.innerHTML = `<p class="text-ink-soft text-sm py-6">No publications yet.</p>`;
+      listEl.innerHTML = '';
+    }
   }
   const full = document.getElementById('pubs-full-grid');
   if (full) {
@@ -1730,6 +1875,11 @@ onSnapshot(query(docsCol, orderBy('createdAt', 'desc')), snapshot => {
   renderDocuments(); renderAdminDocs();
 }, err => console.error('Documents listener error', err));
 
+onSnapshot(query(noticesCol, orderBy('createdAt', 'asc')), snapshot => {
+  siteContent.notices = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderNoticeTicker(); renderAdminNotices();
+}, err => console.error('Notices listener error', err));
+
 onSnapshot(siteImagesCol, snapshot => {
   const map = {};
   snapshot.forEach(d => { map[d.id] = d.data(); });
@@ -1800,7 +1950,7 @@ function showAdminDashboard() {
   adminSetupView.classList.add('hidden');
   adminLoginView.classList.add('hidden');
   adminDashboard.classList.remove('hidden');
-  renderAdminSiteImages(); renderAdminGallery(); renderAdminPubs(); renderAdminDocs();
+  renderAdminSiteImages(); renderAdminGallery(); renderAdminPubs(); renderAdminDocs(); renderAdminNotices();
   lucide.createIcons();
 }
 function showAdminLogin() {
@@ -1846,6 +1996,7 @@ async function seedDefaultsIfNeeded() {
     await seedIfEmpty('gallery', galleryCol, await getDocs(galleryCol));
     await seedIfEmpty('publications', pubsCol, await getDocs(pubsCol));
     await seedIfEmpty('documents', docsCol, await getDocs(docsCol));
+    await seedIfEmpty('notices', noticesCol, await getDocs(noticesCol));
   } catch (err) {
     console.error('Could not seed default content.', err);
   }
@@ -2022,7 +2173,45 @@ document.getElementById('admin-gallery-list').addEventListener('click', async e 
   catch (err) { console.error('Could not remove image.', err); alert('Could not remove image.'); }
 });
 
-/* ───────── Admin: Publications form + delete ───────── */
+/* ───────── Publication lightbox (Read button — every publication is a single image) ───────── */
+function openPubLightbox(id) {
+  const item = siteContent.publications.find(p => p.id === id);
+  if (!item) return;
+  document.getElementById('pub-lightbox-img').src = item.image;
+  document.getElementById('pub-lightbox-img').alt = item.title;
+  const tagEl = document.getElementById('pub-lightbox-tag');
+  tagEl.textContent = item.tag;
+  tagEl.className = 'tick px-3 py-1.5 rounded-md inline-block mb-4 ' + (TAG_STYLE[item.tag] || 'bg-ink text-paper');
+  document.getElementById('pub-lightbox-title').textContent = item.title;
+  document.getElementById('pub-lightbox-meta').textContent = item.meta;
+  document.getElementById('pub-lightbox-author').textContent = item.author;
+  const downloadEl = document.getElementById('pub-lightbox-download');
+  downloadEl.href = item.image;
+  downloadEl.download = (item.title || 'publication').replace(/[^\w\- ]+/g, '').trim() || 'publication';
+  document.getElementById('pub-lightbox').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  lucide.createIcons();
+}
+function closePubLightbox() {
+  document.getElementById('pub-lightbox').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+document.addEventListener('click', e => {
+  const viewBtn = e.target.closest('[data-view-pub]');
+  if (viewBtn) { openPubLightbox(viewBtn.dataset.viewPub); return; }
+  if (e.target.closest('[data-close-pub-lightbox]') || e.target.id === 'pub-lightbox') closePubLightbox();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePubLightbox(); });
+
+/* ───────── Admin: Publications form (add + edit) + delete ───────── */
+let editingPubId = null;
+function resetPubForm() {
+  editingPubId = null;
+  document.getElementById('pub-form').reset();
+  document.getElementById('pub-file-hint').classList.add('hidden');
+  document.getElementById('pub-submit-label').textContent = 'Add Publication';
+  document.getElementById('pub-cancel').classList.add('hidden');
+}
 document.getElementById('pub-form').addEventListener('submit', async e => {
   e.preventDefault();
   const file = document.getElementById('pub-file').files[0];
@@ -2030,21 +2219,95 @@ document.getElementById('pub-form').addEventListener('submit', async e => {
   const title = document.getElementById('pub-title').value.trim();
   const meta = document.getElementById('pub-meta').value.trim();
   const author = document.getElementById('pub-author').value.trim();
-  if (!file || !title || !meta || !author) return;
+  if (!title || !meta || !author) return;
+  if (!editingPubId && !file) return; // a new publication needs an image
   try {
-    const image = await fileToDataURL(file);
-    await addDoc(pubsCol, { image, tag, meta, title, author, createdAt: serverTimestamp() });
-    e.target.reset();
+    const updates = { tag, meta, title, author };
+    if (file) updates.image = await fileToDataURL(file);
+    if (editingPubId) {
+      await updateDoc(doc(db, 'publications', editingPubId), updates);
+    } else {
+      await addDoc(pubsCol, { ...updates, createdAt: serverTimestamp() });
+    }
+    resetPubForm();
   } catch (err) {
     console.error('Could not save publication.', err);
     alert('Could not save — the image may be too large. Try a smaller image.');
   }
 });
+document.getElementById('pub-cancel').addEventListener('click', resetPubForm);
 document.getElementById('admin-pub-list').addEventListener('click', async e => {
-  const btn = e.target.closest('[data-remove-pub]');
-  if (!btn) return;
-  try { await deleteDoc(doc(db, 'publications', btn.dataset.removePub)); }
-  catch (err) { console.error('Could not remove publication.', err); alert('Could not remove publication.'); }
+  const editBtn = e.target.closest('[data-edit-pub]');
+  if (editBtn) {
+    const item = siteContent.publications.find(p => p.id === editBtn.dataset.editPub);
+    if (!item) return;
+    editingPubId = item.id;
+    document.getElementById('pub-tag').value = item.tag;
+    document.getElementById('pub-title').value = item.title;
+    document.getElementById('pub-meta').value = item.meta;
+    document.getElementById('pub-author').value = item.author;
+    document.getElementById('pub-file').value = '';
+    document.getElementById('pub-file-hint').classList.remove('hidden');
+    document.getElementById('pub-submit-label').textContent = 'Save Changes';
+    document.getElementById('pub-cancel').classList.remove('hidden');
+    document.getElementById('pub-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  const delBtn = e.target.closest('[data-remove-pub]');
+  if (!delBtn) return;
+  try {
+    await deleteDoc(doc(db, 'publications', delBtn.dataset.removePub));
+    if (editingPubId === delBtn.dataset.removePub) resetPubForm();
+  } catch (err) { console.error('Could not remove publication.', err); alert('Could not remove publication.'); }
+});
+
+/* ───────── Admin: Notices form (add + edit) + delete ───────── */
+let editingNoticeId = null;
+function resetNoticeForm() {
+  editingNoticeId = null;
+  document.getElementById('notice-form').reset();
+  document.getElementById('notice-submit-label').textContent = 'Add Notice';
+  document.getElementById('notice-cancel').classList.add('hidden');
+}
+document.getElementById('notice-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const dateEl = document.getElementById('notice-date');
+  const textEl = document.getElementById('notice-text');
+  const date = dateEl.value.trim();
+  const text = textEl.value.trim();
+  if (!date || !text) return;
+  try {
+    if (editingNoticeId) {
+      await updateDoc(doc(db, 'notices', editingNoticeId), { date, text });
+    } else {
+      await addDoc(noticesCol, { date, text, createdAt: serverTimestamp() });
+    }
+    resetNoticeForm();
+  } catch (err) {
+    console.error('Could not save notice.', err);
+    alert('Could not save notice.');
+  }
+});
+document.getElementById('notice-cancel').addEventListener('click', resetNoticeForm);
+document.getElementById('admin-notice-list').addEventListener('click', async e => {
+  const editBtn = e.target.closest('[data-edit-notice]');
+  if (editBtn) {
+    const item = siteContent.notices.find(n => n.id === editBtn.dataset.editNotice);
+    if (!item) return;
+    editingNoticeId = item.id;
+    document.getElementById('notice-date').value = item.date;
+    document.getElementById('notice-text').value = item.text;
+    document.getElementById('notice-submit-label').textContent = 'Save Changes';
+    document.getElementById('notice-cancel').classList.remove('hidden');
+    document.getElementById('notice-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  const delBtn = e.target.closest('[data-remove-notice]');
+  if (!delBtn) return;
+  try {
+    await deleteDoc(doc(db, 'notices', delBtn.dataset.removeNotice));
+    if (editingNoticeId === delBtn.dataset.removeNotice) resetNoticeForm();
+  } catch (err) { console.error('Could not remove notice.', err); alert('Could not remove notice.'); }
 });
 
 /* ───────── Admin: Documents form + delete ───────── */
@@ -2070,6 +2333,18 @@ document.getElementById('admin-doc-list').addEventListener('click', async e => {
   catch (err) { console.error('Could not remove document.', err); alert('Could not remove document.'); }
 });
 
+</script>
+
+<!-- ══════════════════════════════════════════════════════════════
+     CORE UI — deliberately a plain (non-module) script, separate
+     from the Firebase module above. A static `import` inside a
+     <script type="module"> aborts the ENTIRE module if it fails to
+     load (slow connection, blocked/unreachable CDN, etc). That used
+     to take the mobile menu, the router and every icon down with it.
+     This script has no Firebase dependency, so the menu/icons/router
+     keep working even if Firebase never loads.
+     ══════════════════════════════════════════════════════════════ -->
+<script>
 /* ═══════════ Router (hash-based SPA) ═══════════ */
 const pages = document.querySelectorAll('.page');
 const titles = {
