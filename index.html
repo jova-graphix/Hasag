@@ -532,7 +532,7 @@
       <a href="#gallery" data-route="gallery" class="reveal inline-flex items-center gap-2 font-semibold text-sm link-sweep" style="transition-delay:180ms">View full gallery <i data-lucide="images" class="w-4 h-4 text-crimson"></i></a>
     </div>
 
-    <div class="reveal gallery-strip flex gap-4 sm:gap-5 overflow-x-auto pb-3 snap-x" id="home-gallery-strip" data-max="6">
+    <div class="reveal gallery-strip flex gap-4 sm:gap-5 overflow-x-auto pb-3 pl-5 sm:pl-8 pr-5 sm:pr-8 snap-x" id="home-gallery-strip" data-max="6">
       <!-- populated dynamically by renderGallery() -->
     </div>
   </div>
@@ -1750,19 +1750,14 @@ function galleryCardHTML(item, variant, index, isFirst, isLast) {
   // 'grid' (full gallery page — fills its grid cell, no delete),
   // 'admin' (dashboard manager — fills its grid cell, has delete button).
   const sizing = variant === 'strip' ? 'snap-start shrink-0 w-[86vw] sm:w-[420px]' : 'w-full';
-  // Padding on a horizontally-scrolling flex container is unreliable across
-  // browsers (the leading/trailing inset can collapse once content overflows),
-  // so the strip's edge spacing is applied as margin on the first/last card
-  // instead of relying on the container's own padding.
-  const edgeSpacing = variant === 'strip' ? [isFirst ? 'ml-5 sm:ml-8' : '', isLast ? 'mr-5 sm:mr-8' : ''].filter(Boolean).join(' ') : '';
   const withDelete = variant === 'admin';
   const clickable = variant !== 'admin';
   const aspectClass = 'aspect-[4/3]';
   const captionClass = variant === 'grid' ? 'tick text-ink-soft mt-3.5 text-[13px] sm:text-[9.5px]' : 'tick text-ink-soft mt-3';
   const captionStyle = variant === 'grid' ? '' : ' style="font-size:9.5px"';
   return `
-    <figure class="g-card ${sizing} ${edgeSpacing} relative group">
-      <div class="lazy-img-wrap rounded-xl overflow-hidden ${aspectClass} border border-ink/10${clickable ? ' cursor-pointer' : ''}"${clickable ? ` data-open-gallery="${index}" role="button" tabindex="0" aria-label="View full image: ${escapeHTML(item.caption)}"` : ''}>
+    <figure class="g-card ${sizing} relative group">
+      <div class="lazy-img-wrap rounded-xl overflow-hidden ${aspectClass} border border-ink/10${clickable ? ' cursor-pointer' : ''}"${clickable ? ` data-open-lightbox="gallery:${index}" role="button" tabindex="0" aria-label="View full image: ${escapeHTML(item.caption)}"` : ''}>
         <img src="${item.src}" alt="${escapeHTML(item.caption)}" class="lazy-img w-full h-full object-cover" loading="lazy" onload="this.classList.add('is-loaded'); this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-loaded')" />
         ${clickable ? `
         <div class="absolute inset-0 flex items-center justify-center bg-ink/0 group-hover:bg-ink/25 transition-colors pointer-events-none">
@@ -1795,13 +1790,18 @@ function renderGallery() {
 }
 
 /* ───────── Render: Publications (home grid + full page) ───────── */
-function pubCardHTML(item, withDelete) {
+function pubCardHTML(item, withDelete, index) {
   const badge = TAG_STYLE[item.tag] || 'bg-ink text-paper';
+  const clickable = !withDelete && index !== undefined;
   return `
     <article class="pub-card pro-card bg-white border border-ink/10 rounded-2xl overflow-hidden relative group">
-      <div class="lazy-img-wrap relative overflow-hidden aspect-[16/10]">
+      <div class="lazy-img-wrap relative overflow-hidden aspect-[16/10]${clickable ? ' cursor-pointer' : ''}"${clickable ? ` data-open-lightbox="pub:${index}" role="button" tabindex="0" aria-label="View full image: ${escapeHTML(item.title)}"` : ''}>
         <img src="${item.image}" alt="${escapeHTML(item.title)}" class="lazy-img w-full h-full object-cover" loading="lazy" onload="this.classList.add('is-loaded'); this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-loaded')" />
         <span class="absolute top-4 left-4 tick ${badge} px-3 py-1.5 rounded-md" style="font-size:9px">${escapeHTML(item.tag)}</span>
+        ${clickable ? `
+        <div class="absolute inset-0 flex items-center justify-center bg-ink/0 group-hover:bg-ink/25 transition-colors pointer-events-none">
+          <div class="w-10 h-10 rounded-full bg-paper/95 flex items-center justify-center opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100 transition-all"><i data-lucide="expand" class="w-4.5 h-4.5 text-ink"></i></div>
+        </div>` : ''}
         ${withDelete ? `
         <div class="absolute top-4 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
           <button data-edit-pub="${item.id}" class="w-8 h-8 rounded-lg bg-ink/80 text-paper flex items-center justify-center" aria-label="Edit publication"><i data-lucide="pencil" class="w-4 h-4"></i></button>
@@ -1820,13 +1820,16 @@ function pubCardHTML(item, withDelete) {
 /* Home page preview: one featured publication (the most recent) plus a
    short, quiet list of the next few — a single focal point reads as more
    curated than a wall of equal-weight cards. */
-function pubFeaturedCardHTML(item) {
+function pubFeaturedCardHTML(item, index) {
   const badge = TAG_STYLE[item.tag] || 'bg-ink text-paper';
   return `
     <article class="pub-card pro-card bg-white border border-ink/10 rounded-2xl overflow-hidden h-full flex flex-col">
-      <div class="relative overflow-hidden aspect-[16/9] sm:aspect-[16/10] bg-cream">
+      <div class="relative overflow-hidden aspect-[16/9] sm:aspect-[16/10] bg-cream group cursor-pointer" data-open-lightbox="pub:${index}" role="button" tabindex="0" aria-label="View full image: ${escapeHTML(item.title)}">
         <img src="${item.image}" alt="${escapeHTML(item.title)}" class="w-full h-full object-cover" loading="lazy" />
         <span class="absolute top-4 left-4 tick ${badge} px-3 py-1.5 rounded-md" style="font-size:9px">${escapeHTML(item.tag)}</span>
+        <div class="absolute inset-0 flex items-center justify-center bg-ink/0 group-hover:bg-ink/25 transition-colors pointer-events-none">
+          <div class="w-10 h-10 rounded-full bg-paper/95 flex items-center justify-center opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100 transition-all"><i data-lucide="expand" class="w-4.5 h-4.5 text-ink"></i></div>
+        </div>
       </div>
       <div class="p-6 sm:p-8 flex-1 flex flex-col">
         <div class="flex items-center gap-2 text-xs text-ink-soft mb-3"><i data-lucide="calendar" class="w-3.5 h-3.5 text-gold"></i> ${escapeHTML(item.meta)}</div>
@@ -1837,11 +1840,11 @@ function pubFeaturedCardHTML(item) {
       </div>
     </article>`;
 }
-function pubCompactRowHTML(item) {
+function pubCompactRowHTML(item, index) {
   const badge = TAG_STYLE[item.tag] || 'bg-ink text-paper';
   return `
     <div class="flex items-center gap-4 py-4 border-b border-ink/10 w-full">
-      <div class="w-20 h-16 sm:w-24 sm:h-[4.5rem] rounded-lg overflow-hidden bg-cream shrink-0">
+      <div class="w-20 h-16 sm:w-24 sm:h-[4.5rem] rounded-lg overflow-hidden bg-cream shrink-0 cursor-pointer" data-open-lightbox="pub:${index}" role="button" tabindex="0" aria-label="View full image: ${escapeHTML(item.title)}">
         <img src="${item.image}" alt="${escapeHTML(item.title)}" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="min-w-0 flex-1">
@@ -1857,9 +1860,9 @@ function renderPublications() {
   if (featuredEl && listEl) {
     if (siteContent.publications.length) {
       const [first, ...rest] = siteContent.publications;
-      featuredEl.innerHTML = pubFeaturedCardHTML(first);
+      featuredEl.innerHTML = pubFeaturedCardHTML(first, 0);
       listEl.innerHTML = rest.length
-        ? rest.slice(0, 3).map(pubCompactRowHTML).join('')
+        ? rest.slice(0, 3).map((item, i) => pubCompactRowHTML(item, i + 1)).join('')
         : `<p class="text-ink-soft text-sm py-6">More publications will appear here.</p>`;
     } else {
       featuredEl.innerHTML = `<p class="text-ink-soft text-sm py-6">No publications yet.</p>`;
@@ -1869,7 +1872,7 @@ function renderPublications() {
   const full = document.getElementById('pubs-full-grid');
   if (full) {
     full.innerHTML = siteContent.publications.length
-      ? siteContent.publications.map(i => pubCardHTML(i, false)).join('')
+      ? siteContent.publications.map((i, idx) => pubCardHTML(i, false, idx)).join('')
       : `<p class="text-ink-soft text-sm py-6 col-span-full">No publications have been uploaded yet.</p>`;
   }
   lucide.createIcons();
@@ -2381,25 +2384,39 @@ document.getElementById('admin-gallery-list').addEventListener('click', async e 
   } catch (err) { console.error('Could not remove image.', err); alert('Could not remove image.'); }
 });
 
-/* ───────── Gallery lightbox (click any gallery photo for a full preview) ───────── */
-let galleryLightboxIndex = null;
-function openGalleryLightbox(index) {
-  const items = siteContent.gallery;
-  if (!items || !items.length) return;
-  galleryLightboxIndex = ((index % items.length) + items.length) % items.length;
+/* ───────── Image lightbox (click any previewable photo for a full preview) ─────────
+   Works for more than just the gallery: any image list can opt in by giving its
+   thumbnail a data-open-lightbox="source:index" attribute, as long as a matching
+   entry exists in LIGHTBOX_SOURCES below. Each source is only ever previewed
+   within its own list — the "attached to the edge" spacing trick used for the
+   home gallery strip is a strip-only layout detail and isn't part of this. */
+const LIGHTBOX_SOURCES = {
+  gallery: () => (siteContent.gallery || []).map(i => ({ src: i.src, caption: i.caption || '' })),
+  pub: () => (siteContent.publications || []).map(i => ({ src: i.image, caption: i.title || '' })),
+};
+let lightboxSource = null;
+let lightboxIndex = null;
+function openLightbox(source, index) {
+  const getItems = LIGHTBOX_SOURCES[source];
+  if (!getItems) return;
+  const items = getItems();
+  if (!items.length) return;
+  lightboxSource = source;
+  lightboxIndex = ((index % items.length) + items.length) % items.length;
   renderGalleryLightbox();
   document.getElementById('gallery-lightbox').classList.remove('hidden');
   document.body.style.overflow = 'hidden';
 }
 function renderGalleryLightbox() {
-  const items = siteContent.gallery;
-  if (!items || !items.length || galleryLightboxIndex === null) return;
-  const item = items[galleryLightboxIndex];
+  if (lightboxSource === null || lightboxIndex === null) return;
+  const items = LIGHTBOX_SOURCES[lightboxSource]();
+  if (!items.length) return;
+  const item = items[lightboxIndex];
   const img = document.getElementById('gallery-lightbox-img');
   img.src = item.src;
   img.alt = item.caption || '';
   document.getElementById('gallery-lightbox-caption').textContent = item.caption || '';
-  document.getElementById('gallery-lightbox-count').textContent = (galleryLightboxIndex + 1) + ' / ' + items.length;
+  document.getElementById('gallery-lightbox-count').textContent = (lightboxIndex + 1) + ' / ' + items.length;
   const multiple = items.length > 1;
   document.querySelectorAll('[data-gallery-prev], [data-gallery-next]').forEach(btn => btn.classList.toggle('sm:hidden', !multiple && !btn.classList.contains('sm:hidden')));
   lucide.createIcons();
@@ -2407,15 +2424,20 @@ function renderGalleryLightbox() {
 function closeGalleryLightbox() {
   document.getElementById('gallery-lightbox').classList.add('hidden');
   document.body.style.overflow = '';
-  galleryLightboxIndex = null;
+  lightboxSource = null;
+  lightboxIndex = null;
 }
 function stepGalleryLightbox(delta) {
-  if (galleryLightboxIndex === null) return;
-  openGalleryLightbox(galleryLightboxIndex + delta);
+  if (lightboxSource === null || lightboxIndex === null) return;
+  openLightbox(lightboxSource, lightboxIndex + delta);
 }
 document.addEventListener('click', e => {
-  const openTrigger = e.target.closest('[data-open-gallery]');
-  if (openTrigger) { openGalleryLightbox(+openTrigger.dataset.openGallery); return; }
+  const openTrigger = e.target.closest('[data-open-lightbox]');
+  if (openTrigger) {
+    const [source, idx] = openTrigger.dataset.openLightbox.split(':');
+    openLightbox(source, +idx);
+    return;
+  }
   if (e.target.closest('[data-gallery-prev]')) { stepGalleryLightbox(-1); return; }
   if (e.target.closest('[data-gallery-next]')) { stepGalleryLightbox(1); return; }
   if (e.target.closest('[data-close-gallery-lightbox]')) { closeGalleryLightbox(); return; }
@@ -2428,9 +2450,11 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'ArrowRight') stepGalleryLightbox(1);
 });
 document.addEventListener('keydown', e => {
-  if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('[data-open-gallery]')) {
+  const trigger = e.target.closest('[data-open-lightbox]');
+  if ((e.key === 'Enter' || e.key === ' ') && trigger) {
     e.preventDefault();
-    openGalleryLightbox(+e.target.closest('[data-open-gallery]').dataset.openGallery);
+    const [source, idx] = trigger.dataset.openLightbox.split(':');
+    openLightbox(source, +idx);
   }
 });
 
