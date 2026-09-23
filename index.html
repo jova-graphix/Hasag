@@ -83,6 +83,19 @@
   .pub-card img { transition: transform .9s cubic-bezier(.16,1,.3,1); }
   .pub-card:hover img { transform: scale(1.06); }
 
+  /* Lazy image loading: skeleton shimmer while an image has no
+     confirmed source yet, then a soft fade-in once it loads.
+     Applies to every managed photo (hero, executives, patrons,
+     gallery, publications) so nothing pops in unstyled. */
+  .lazy-img-wrap { position: relative; background: linear-gradient(100deg, #ECE7DC 30%, #F6F3EC 45%, #ECE7DC 60%); background-size: 250% 100%; animation: lazyShimmer 1.6s ease-in-out infinite; }
+  .lazy-img-wrap.is-loaded { animation: none; background: none; }
+  .lazy-img { opacity: 0; transition: opacity .5s ease; }
+  .lazy-img.is-loaded { opacity: 1; }
+  @keyframes lazyShimmer { 0% { background-position: 200% 0; } 100% { background-position: -50% 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .lazy-img-wrap { animation: none; }
+  }
+
   /* Gallery */
   .gallery-strip { scrollbar-width: none; }
   .gallery-strip::-webkit-scrollbar { display: none; }
@@ -247,8 +260,8 @@
       <div class="lg:col-span-5 reveal" style="transition-delay:250ms">
         <div class="relative">
           <div class="absolute -top-3 -right-3 w-full h-full rounded-2xl border border-gold/70 pointer-events-none"></div>
-          <div class="relative rounded-2xl overflow-hidden border-[6px] border-white shadow-[0_30px_70px_-30px_rgba(18,16,13,.45)] aspect-[4/5] bg-cream">
-            <img id="site-img-home-hero" src="https://images.pexels.com/photos/8123816/pexels-photo-8123816.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="HASAG member addressing a professional development session" class="w-full h-full object-cover" />
+          <div class="relative rounded-2xl overflow-hidden border-[6px] border-white shadow-[0_30px_70px_-30px_rgba(18,16,13,.45)] aspect-[4/5] lazy-img-wrap">
+            <img id="site-img-home-hero" alt="HASAG member addressing a professional development session" class="lazy-img w-full h-full object-cover" />
             <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/85 via-ink/30 to-transparent pt-16 pb-5 px-5">
               <div id="site-text-home-hero-caption-title" class="text-paper text-sm font-medium">Continuous Professional Development Session</div>
               <div id="site-text-home-hero-caption-sub" class="tick text-paper/60 mt-1">National Secretariat · 2026</div>
@@ -287,8 +300,8 @@
       <div class="lg:col-span-5 reveal">
         <div class="relative">
           <div class="absolute -bottom-3 -left-3 w-full h-full rounded-2xl border border-crimson/40 pointer-events-none"></div>
-          <div class="relative rounded-2xl overflow-hidden border-[6px] border-white shadow-[0_30px_70px_-30px_rgba(18,16,13,.4)] aspect-[4/3] bg-cream">
-            <img id="site-img-home-about" src="https://images.pexels.com/photos/8549944/pexels-photo-8549944.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Two HASAG members reviewing facility accounts" class="w-full h-full object-cover" />
+          <div class="relative rounded-2xl overflow-hidden border-[6px] border-white shadow-[0_30px_70px_-30px_rgba(18,16,13,.4)] aspect-[4/3] lazy-img-wrap">
+            <img id="site-img-home-about" alt="Two HASAG members reviewing facility accounts" class="lazy-img w-full h-full object-cover" />
           </div>
           <div class="absolute -bottom-6 right-4 sm:right-8 bg-ink text-paper rounded-xl px-5 py-4 shadow-xl">
             <div class="font-display font-semibold text-2xl text-gold-soft"><span id="site-text-home-about-badge-years">38</span><span class="text-crimson">+</span> Years</div>
@@ -444,8 +457,8 @@
 
         <!-- Image + quote -->
         <div class="lg:col-span-6">
-          <div class="reveal relative rounded-2xl overflow-hidden border-[6px] border-white shadow-[0_30px_70px_-30px_rgba(18,16,13,.4)] aspect-[16/10] lg:sticky lg:top-32 bg-white" style="transition-delay:220ms">
-            <img id="site-img-home-what-we-do" src="https://images.pexels.com/photos/6950050/pexels-photo-6950050.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="National training workshop in session" class="w-full h-full object-cover" />
+          <div class="reveal relative rounded-2xl overflow-hidden border-[6px] border-white shadow-[0_30px_70px_-30px_rgba(18,16,13,.4)] aspect-[16/10] lg:sticky lg:top-32 lazy-img-wrap" style="transition-delay:220ms">
+            <img id="site-img-home-what-we-do" alt="National training workshop in session" class="lazy-img w-full h-full object-cover" />
           </div>
           <figure class="reveal mt-6 bg-ink text-paper rounded-2xl p-7 sm:p-8" style="transition-delay:300ms">
             <i data-lucide="quote" class="w-7 h-7 text-gold-soft mb-4"></i>
@@ -773,8 +786,8 @@
       <div class="lg:col-span-4 reveal">
         <div class="relative">
           <div class="absolute -top-3 -right-3 w-full h-full rounded-2xl border border-gold/70 pointer-events-none"></div>
-          <div class="relative rounded-2xl overflow-hidden border-[6px] border-white shadow-[0_30px_70px_-30px_rgba(18,16,13,.45)] aspect-[3/4] bg-cream">
-            <img id="site-img-exec-president" src="https://images.pexels.com/photos/16291208/pexels-photo-16291208.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Dr. Kwabena Asante Boateng — National President of HASAG" class="w-full h-full object-cover object-top" />
+          <div class="relative rounded-2xl overflow-hidden border-[6px] border-white shadow-[0_30px_70px_-30px_rgba(18,16,13,.45)] aspect-[3/4] lazy-img-wrap">
+            <img id="site-img-exec-president" alt="Dr. Kwabena Asante Boateng — National President of HASAG" class="lazy-img w-full h-full object-cover object-top" />
           </div>
           <div id="site-text-exec-president-badge" class="absolute -bottom-5 left-5 bg-crimson text-paper rounded-lg px-4 py-2.5 shadow-xl tick" style="font-size:10px">National President</div>
         </div>
@@ -820,8 +833,8 @@
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <!-- Vice President -->
         <article class="pro-card reveal group bg-white border border-ink/10 rounded-2xl overflow-hidden">
-          <div class="relative aspect-[4/5] bg-cream overflow-hidden">
-            <img id="site-img-exec-vice-president" src="https://images.pexels.com/photos/39308168/pexels-photo-39308168.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Mr. Daniel Osei Mensah — National Vice President" class="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700" />
+          <div class="relative aspect-[4/5] overflow-hidden lazy-img-wrap">
+            <img id="site-img-exec-vice-president" alt="Mr. Daniel Osei Mensah — National Vice President" class="lazy-img w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700" />
           </div>
           <div class="p-5">
             <div id="site-text-exec-vice-president-position" class="tick text-gold" style="font-size:9.5px">National Vice President</div>
@@ -830,8 +843,8 @@
         </article>
         <!-- Secretary -->
         <article class="pro-card reveal group bg-white border border-ink/10 rounded-2xl overflow-hidden" style="transition-delay:80ms">
-          <div class="relative aspect-[4/5] bg-cream overflow-hidden">
-            <img id="site-img-exec-secretary" src="https://images.pexels.com/photos/32341159/pexels-photo-32341159.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Mrs. Abena Konadu Frimpong — National Secretary" class="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700" />
+          <div class="relative aspect-[4/5] overflow-hidden lazy-img-wrap">
+            <img id="site-img-exec-secretary" alt="Mrs. Abena Konadu Frimpong — National Secretary" class="lazy-img w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700" />
           </div>
           <div class="p-5">
             <div id="site-text-exec-secretary-position" class="tick text-gold" style="font-size:9.5px">National Secretary</div>
@@ -840,8 +853,8 @@
         </article>
         <!-- Vice Secretary -->
         <article class="pro-card reveal group bg-white border border-ink/10 rounded-2xl overflow-hidden" style="transition-delay:160ms">
-          <div class="relative aspect-[4/5] bg-cream overflow-hidden">
-            <img id="site-img-exec-vice-secretary" src="https://images.pexels.com/photos/7447377/pexels-photo-7447377.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Mr. Emmanuel Tetteh Agbeko — National Vice Secretary" class="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700" />
+          <div class="relative aspect-[4/5] overflow-hidden lazy-img-wrap">
+            <img id="site-img-exec-vice-secretary" alt="Mr. Emmanuel Tetteh Agbeko — National Vice Secretary" class="lazy-img w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700" />
           </div>
           <div class="p-5">
             <div id="site-text-exec-vice-secretary-position" class="tick text-gold" style="font-size:9.5px">National Vice Secretary</div>
@@ -850,8 +863,8 @@
         </article>
         <!-- Organiser -->
         <article class="pro-card reveal group bg-white border border-ink/10 rounded-2xl overflow-hidden" style="transition-delay:240ms">
-          <div class="relative aspect-[4/5] bg-cream overflow-hidden">
-            <img id="site-img-exec-organiser" src="https://images.pexels.com/photos/5648107/pexels-photo-5648107.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Mr. Yaw Darko Appiah — National Organiser" class="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700" />
+          <div class="relative aspect-[4/5] overflow-hidden lazy-img-wrap">
+            <img id="site-img-exec-organiser" alt="Mr. Yaw Darko Appiah — National Organiser" class="lazy-img w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700" />
           </div>
           <div class="p-5">
             <div id="site-text-exec-organiser-position" class="tick text-gold" style="font-size:9.5px">National Organiser</div>
@@ -860,8 +873,8 @@
         </article>
         <!-- Financial Secretary -->
         <article class="pro-card reveal group bg-white border border-ink/10 rounded-2xl overflow-hidden">
-          <div class="relative aspect-[4/5] bg-cream overflow-hidden">
-            <img id="site-img-exec-financial-secretary" src="https://images.pexels.com/photos/38581717/pexels-photo-38581717.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Ms. Efua Amankwah Owusu — National Financial Secretary" class="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700" />
+          <div class="relative aspect-[4/5] overflow-hidden lazy-img-wrap">
+            <img id="site-img-exec-financial-secretary" alt="Ms. Efua Amankwah Owusu — National Financial Secretary" class="lazy-img w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700" />
           </div>
           <div class="p-5">
             <div id="site-text-exec-financial-secretary-position" class="tick text-gold" style="font-size:9.5px">National Financial Secretary</div>
@@ -870,8 +883,8 @@
         </article>
         <!-- PRO -->
         <article class="pro-card reveal group bg-white border border-ink/10 rounded-2xl overflow-hidden" style="transition-delay:80ms">
-          <div class="relative aspect-[4/5] bg-cream overflow-hidden">
-            <img id="site-img-exec-pro" src="https://images.pexels.com/photos/31480550/pexels-photo-31480550.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Mr. Kofi Nyarko Adjei — National Public Relations Officer" class="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700" />
+          <div class="relative aspect-[4/5] overflow-hidden lazy-img-wrap">
+            <img id="site-img-exec-pro" alt="Mr. Kofi Nyarko Adjei — National Public Relations Officer" class="lazy-img w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700" />
           </div>
           <div class="p-5">
             <div id="site-text-exec-pro-position" class="tick text-gold" style="font-size:9.5px">National PRO</div>
@@ -880,8 +893,8 @@
         </article>
         <!-- Welfare Officer -->
         <article class="pro-card reveal group bg-white border border-ink/10 rounded-2xl overflow-hidden" style="transition-delay:160ms">
-          <div class="relative aspect-[4/5] bg-cream overflow-hidden">
-            <img id="site-img-exec-welfare-officer" src="https://images.pexels.com/photos/9304685/pexels-photo-9304685.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Mrs. Grace Akosua Badu — National Welfare Officer" class="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700" />
+          <div class="relative aspect-[4/5] overflow-hidden lazy-img-wrap">
+            <img id="site-img-exec-welfare-officer" alt="Mrs. Grace Akosua Badu — National Welfare Officer" class="lazy-img w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700" />
           </div>
           <div class="p-5">
             <div id="site-text-exec-welfare-officer-position" class="tick text-gold" style="font-size:9.5px">National Welfare Officer</div>
@@ -890,8 +903,8 @@
         </article>
         <!-- Women's Commissioner -->
         <article class="pro-card reveal group bg-white border border-ink/10 rounded-2xl overflow-hidden" style="transition-delay:240ms">
-          <div class="relative aspect-[4/5] bg-cream overflow-hidden">
-            <img id="site-img-exec-womens-commissioner" src="https://images.pexels.com/photos/30289347/pexels-photo-30289347.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Mrs. Selina Adjoa Kwarteng — National Women's Commissioner" class="w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700" />
+          <div class="relative aspect-[4/5] overflow-hidden lazy-img-wrap">
+            <img id="site-img-exec-womens-commissioner" alt="Mrs. Selina Adjoa Kwarteng — National Women's Commissioner" class="lazy-img w-full h-full object-cover object-top group-hover:scale-[1.05] transition-transform duration-700" />
           </div>
           <div class="p-5">
             <div id="site-text-exec-womens-commissioner-position" class="tick text-gold" style="font-size:9.5px">National Women's Commissioner</div>
@@ -922,7 +935,9 @@
       <div class="reveal bg-white/5 border border-paper/10 rounded-2xl p-6 sm:p-8 lg:p-10 mb-6 flex flex-col md:flex-row items-center md:items-start gap-8">
         <div class="relative shrink-0">
           <div class="absolute -inset-2 rounded-2xl border border-gold/50 pointer-events-none"></div>
-          <img id="site-img-elders-chairman" src="https://images.pexels.com/photos/8068725/pexels-photo-8068725.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Eld. Samuel Ofori-Atta — Chairman of the Council of Elders" class="w-40 h-44 sm:w-48 sm:h-56 object-cover object-top rounded-xl" />
+          <div class="lazy-img-wrap w-40 h-44 sm:w-48 sm:h-56 rounded-xl overflow-hidden">
+            <img id="site-img-elders-chairman" alt="Eld. Samuel Ofori-Atta — Chairman of the Council of Elders" class="lazy-img w-full h-full object-cover object-top" />
+          </div>
         </div>
         <div class="text-center md:text-left">
           <div class="inline-flex items-center gap-2 bg-gold text-ink rounded-md px-3.5 py-2 tick" style="font-size:10px"><i data-lucide="landmark" class="w-3.5 h-3.5"></i> <span id="site-text-elders-chairman-badge">Chairman · Council of Elders</span></div>
@@ -939,19 +954,25 @@
       <!-- Patrons -->
       <div class="grid sm:grid-cols-3 gap-5">
         <article class="reveal bg-white/5 border border-paper/10 rounded-2xl p-7 text-center pro-card" style="border-color: rgba(251,249,245,.1)">
-          <img id="site-img-patron-1" src="https://images.pexels.com/photos/11397093/pexels-photo-11397093.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Elder Joshua Kwame Ayitey — Patron of HASAG" class="w-24 h-24 rounded-full object-cover object-top mx-auto border-2 border-gold/60" />
+          <div class="lazy-img-wrap w-24 h-24 rounded-full mx-auto border-2 border-gold/60 overflow-hidden">
+            <img id="site-img-patron-1" alt="Elder Joshua Kwame Ayitey — Patron of HASAG" class="lazy-img w-full h-full object-cover object-top" />
+          </div>
           <div id="site-text-patron-1-role" class="tick text-gold mt-5" style="font-size:10px">Patron</div>
           <h3 id="site-text-patron-1-name" class="font-display font-semibold text-xl mt-2">Elder Joshua Kwame Ayitey</h3>
           <p id="site-text-patron-1-description" class="text-paper/50 text-xs mt-2 leading-relaxed">Former Director of Finance, Ministry of Health. Patron since 2014.</p>
         </article>
         <article class="reveal bg-white/5 border border-paper/10 rounded-2xl p-7 text-center pro-card" style="transition-delay:100ms; border-color: rgba(251,249,245,.1)">
-          <img id="site-img-patron-2" src="https://images.pexels.com/photos/18460522/pexels-photo-18460522.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Nanahemaa Adwoa Pinamang — Patroness of HASAG" class="w-24 h-24 rounded-full object-cover object-top mx-auto border-2 border-gold/60" />
+          <div class="lazy-img-wrap w-24 h-24 rounded-full mx-auto border-2 border-gold/60 overflow-hidden">
+            <img id="site-img-patron-2" alt="Nanahemaa Adwoa Pinamang — Patroness of HASAG" class="lazy-img w-full h-full object-cover object-top" />
+          </div>
           <div id="site-text-patron-2-role" class="tick text-gold mt-5" style="font-size:10px">Patroness</div>
           <h3 id="site-text-patron-2-name" class="font-display font-semibold text-xl mt-2">Nanahemaa Adwoa Pinamang</h3>
           <p id="site-text-patron-2-description" class="text-paper/50 text-xs mt-2 leading-relaxed">Queen Mother and lifelong advocate for health workers' welfare. Patroness since 2018.</p>
         </article>
         <article class="reveal bg-white/5 border border-paper/10 rounded-2xl p-7 text-center pro-card" style="transition-delay:200ms; border-color: rgba(251,249,245,.1)">
-          <img id="site-img-patron-3" src="https://images.pexels.com/photos/11975215/pexels-photo-11975215.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Alhaji Seidu Mahama — Patron of HASAG" class="w-24 h-24 rounded-full object-cover object-top mx-auto border-2 border-gold/60" />
+          <div class="lazy-img-wrap w-24 h-24 rounded-full mx-auto border-2 border-gold/60 overflow-hidden">
+            <img id="site-img-patron-3" alt="Alhaji Seidu Mahama — Patron of HASAG" class="lazy-img w-full h-full object-cover object-top" />
+          </div>
           <div id="site-text-patron-3-role" class="tick text-gold mt-5" style="font-size:10px">Patron</div>
           <h3 id="site-text-patron-3-name" class="font-display font-semibold text-xl mt-2">Alhaji Seidu Mahama</h3>
           <p id="site-text-patron-3-description" class="text-paper/50 text-xs mt-2 leading-relaxed">Former Chief Accountant, Ghana Health Service. Patron since 2021.</p>
@@ -1651,6 +1672,38 @@ function escapeHTML(str) {
 
 let siteContent = { gallery: [], publications: [], documents: [], siteImages: {}, notices: [] };
 
+/* ───────── Local cache (instant repaint on refresh) ─────────
+   Firestore data always needs a network round-trip, so on a fresh
+   page load the browser would otherwise show the hardcoded default
+   photos/placeholder text for a moment before the real, admin-
+   uploaded content swaps in. To avoid that flash, the last-known
+   content is mirrored into localStorage every time it changes, and
+   read back — synchronously, before Firestore responds — on the
+   very next load. Firestore's live listener still runs as normal
+   and will correct anything that's changed elsewhere since. */
+const CONTENT_CACHE_KEY = 'hasagContentCacheV1';
+function loadContentCache() {
+  try {
+    const raw = localStorage.getItem(CONTENT_CACHE_KEY);
+    if (!raw) return;
+    const cached = JSON.parse(raw);
+    ['gallery', 'publications', 'documents', 'notices', 'siteImages'].forEach(k => {
+      if (cached[k]) siteContent[k] = cached[k];
+    });
+  } catch (e) { /* corrupt or blocked cache — safe to ignore, Firestore will fill in */ }
+}
+function saveContentCache() {
+  try {
+    localStorage.setItem(CONTENT_CACHE_KEY, JSON.stringify({
+      gallery: siteContent.gallery,
+      publications: siteContent.publications,
+      documents: siteContent.documents,
+      notices: siteContent.notices,
+      siteImages: siteContent.siteImages
+    }));
+  } catch (e) { /* storage full/unavailable — safe to ignore */ }
+}
+
 /* ───────── Render: Notice ticker (home page, under the header) ───────── */
 function noticeSpanHTML(item) {
   return `<span class="mx-7 inline-flex items-center gap-3 text-sm text-paper/85"><span class="tick text-gold-soft" style="font-size:10px">${escapeHTML(item.date)}</span> ${escapeHTML(item.text)}</span><span class="text-gold/70">◆</span>`;
@@ -1704,7 +1757,7 @@ function galleryCardHTML(item, variant) {
   const captionStyle = variant === 'grid' ? '' : ' style="font-size:9.5px"';
   return `
     <figure class="g-card ${sizing} relative group">
-      <div class="rounded-xl overflow-hidden ${aspectClass} bg-cream border border-ink/10"><img src="${item.src}" alt="${escapeHTML(item.caption)}" class="w-full h-full object-cover" loading="lazy" /></div>
+      <div class="lazy-img-wrap rounded-xl overflow-hidden ${aspectClass} border border-ink/10"><img src="${item.src}" alt="${escapeHTML(item.caption)}" class="lazy-img w-full h-full object-cover" loading="lazy" onload="this.classList.add('is-loaded'); this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-loaded')" /></div>
       <figcaption class="${captionClass}"${captionStyle}>${escapeHTML(item.caption)}</figcaption>
       ${withDelete ? `
       <div class="absolute top-2 right-2 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1735,8 +1788,8 @@ function pubCardHTML(item, withDelete) {
   const badge = TAG_STYLE[item.tag] || 'bg-ink text-paper';
   return `
     <article class="pub-card pro-card bg-white border border-ink/10 rounded-2xl overflow-hidden relative group">
-      <div class="relative overflow-hidden aspect-[16/10] bg-cream">
-        <img src="${item.image}" alt="${escapeHTML(item.title)}" class="w-full h-full object-cover" loading="lazy" />
+      <div class="lazy-img-wrap relative overflow-hidden aspect-[16/10]">
+        <img src="${item.image}" alt="${escapeHTML(item.title)}" class="lazy-img w-full h-full object-cover" loading="lazy" onload="this.classList.add('is-loaded'); this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-loaded')" />
         <span class="absolute top-4 left-4 tick ${badge} px-3 py-1.5 rounded-md" style="font-size:9px">${escapeHTML(item.tag)}</span>
         ${withDelete ? `
         <div class="absolute top-4 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -1910,48 +1963,38 @@ function renderAdminDocs() {
   lucide.createIcons();
 }
 
-function renderAll() {
-  renderGallery();
-  renderPublications();
-  renderDocuments();
-  renderAdminSiteImages();
-  renderAdminGallery();
-  renderAdminPubs();
-  renderAdminDocs();
+/* Sets an <img> src without popping the raw file in unstyled: the
+   wrapping .lazy-img-wrap shimmers until the photo has actually
+   decoded, then both fade/cross-fade into their loaded state. Safe
+   to call repeatedly with the same src (e.g. on every snapshot). */
+function setLazyImageSrc(imgEl, src) {
+  if (!imgEl || !src) return;
+  const wrap = imgEl.closest('.lazy-img-wrap');
+  if (imgEl.dataset.loadedSrc === src) {
+    imgEl.classList.add('is-loaded');
+    if (wrap) wrap.classList.add('is-loaded');
+    return;
+  }
+  imgEl.classList.remove('is-loaded');
+  if (wrap) wrap.classList.remove('is-loaded');
+  imgEl.onload = () => {
+    imgEl.dataset.loadedSrc = src;
+    imgEl.classList.add('is-loaded');
+    if (wrap) wrap.classList.add('is-loaded');
+  };
+  imgEl.onerror = () => {
+    // Don't shimmer forever if a photo URL is broken — reveal the
+    // (empty) frame instead of hiding it indefinitely.
+    if (wrap) wrap.classList.add('is-loaded');
+  };
+  imgEl.src = src;
 }
-renderAll();
 
-/* ───────── Firestore live listeners ─────────
-   Each collection is watched in real time; any admin add/remove
-   (from this browser or any other) updates every open page. */
-onSnapshot(query(galleryCol, orderBy('createdAt', 'desc')), snapshot => {
-  siteContent.gallery = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-  renderGallery(); renderAdminGallery();
-}, err => console.error('Gallery listener error', err));
-
-onSnapshot(query(pubsCol, orderBy('createdAt', 'desc')), snapshot => {
-  siteContent.publications = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-  renderPublications(); renderAdminPubs();
-}, err => console.error('Publications listener error', err));
-
-onSnapshot(query(docsCol, orderBy('createdAt', 'desc')), snapshot => {
-  siteContent.documents = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-  renderDocuments(); renderAdminDocs();
-}, err => console.error('Documents listener error', err));
-
-onSnapshot(query(noticesCol, orderBy('createdAt', 'asc')), snapshot => {
-  siteContent.notices = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-  renderNoticeTicker(); renderAdminNotices();
-}, err => console.error('Notices listener error', err));
-
-onSnapshot(siteImagesCol, snapshot => {
-  const map = {};
-  snapshot.forEach(d => { map[d.id] = d.data(); });
-  siteContent.siteImages = map;
+function applySiteImages(map) {
   SITE_IMAGE_SLOTS.forEach(slot => {
     const data = map[slot.key] || {};
     const imgEl = document.getElementById('site-img-' + slot.key);
-    if (imgEl) imgEl.src = data.src || slot.defaultSrc;
+    if (imgEl) setLazyImageSrc(imgEl, data.src || slot.defaultSrc);
     (slot.fields || []).forEach(field => {
       const el = document.getElementById(field.elId);
       const value = (data[field.key] != null && data[field.key] !== '') ? data[field.key] : field.default;
@@ -1962,7 +2005,52 @@ onSnapshot(siteImagesCol, snapshot => {
       }
     });
   });
+}
+
+function renderAll() {
+  renderGallery();
+  renderPublications();
+  renderDocuments();
+  renderNoticeTicker();
+  applySiteImages(siteContent.siteImages);
   renderAdminSiteImages();
+  renderAdminGallery();
+  renderAdminPubs();
+  renderAdminDocs();
+}
+loadContentCache();
+renderAll();
+
+/* ───────── Firestore live listeners ─────────
+   Each collection is watched in real time; any admin add/remove
+   (from this browser or any other) updates every open page. */
+onSnapshot(query(galleryCol, orderBy('createdAt', 'desc')), snapshot => {
+  siteContent.gallery = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderGallery(); renderAdminGallery(); saveContentCache();
+}, err => console.error('Gallery listener error', err));
+
+onSnapshot(query(pubsCol, orderBy('createdAt', 'desc')), snapshot => {
+  siteContent.publications = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderPublications(); renderAdminPubs(); saveContentCache();
+}, err => console.error('Publications listener error', err));
+
+onSnapshot(query(docsCol, orderBy('createdAt', 'desc')), snapshot => {
+  siteContent.documents = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderDocuments(); renderAdminDocs(); saveContentCache();
+}, err => console.error('Documents listener error', err));
+
+onSnapshot(query(noticesCol, orderBy('createdAt', 'asc')), snapshot => {
+  siteContent.notices = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderNoticeTicker(); renderAdminNotices(); saveContentCache();
+}, err => console.error('Notices listener error', err));
+
+onSnapshot(siteImagesCol, snapshot => {
+  const map = {};
+  snapshot.forEach(d => { map[d.id] = d.data(); });
+  siteContent.siteImages = map;
+  applySiteImages(map);
+  renderAdminSiteImages();
+  saveContentCache();
 }, err => console.error('Site images listener error', err));
 
 /* ───────── Admin: login gate (hashed password, stored in Firestore) ─────────
