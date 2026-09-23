@@ -159,7 +159,7 @@
       </nav>
 
       <div class="flex items-center gap-3">
-        <a href="#forms" data-route="forms" class="btn hidden sm:inline-flex items-center gap-2 bg-crimson text-paper text-[13px] font-semibold px-5 py-2.5 rounded-lg">
+        <a href="#contact" data-route="contact" data-prefill="membership" class="btn hidden sm:inline-flex items-center gap-2 bg-crimson text-paper text-[13px] font-semibold px-5 py-2.5 rounded-lg">
           <span class="btn-fill bg-ink"></span>
           Join HASAG <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
         </a>
@@ -227,7 +227,7 @@
         </p>
 
         <div class="reveal mt-8 flex flex-wrap items-center gap-4" style="transition-delay:270ms">
-          <a href="#forms" data-route="forms" class="btn inline-flex items-center gap-2.5 bg-crimson text-paper px-7 py-3.5 rounded-lg font-semibold text-sm">
+          <a href="#contact" data-route="contact" data-prefill="membership" class="btn inline-flex items-center gap-2.5 bg-crimson text-paper px-7 py-3.5 rounded-lg font-semibold text-sm">
             <span class="btn-fill bg-ink"></span>
             Become a Member <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
@@ -545,7 +545,7 @@
         <h2 class="font-display font-semibold text-3xl sm:text-5xl lg:text-6xl leading-[1.06] tracking-[-0.01em]">Carry the badge.<br /><span class="font-serifit italic font-medium text-gold-soft">Keep the books honest.</span></h2>
         <p class="mt-5 text-paper/85 leading-relaxed max-w-xl mx-auto">If you serve in the accounts directorate of any health institution in Ghana, there is a place for you in this union.</p>
         <div class="mt-9 flex flex-wrap items-center justify-center gap-4">
-          <a href="#forms" data-route="forms" class="btn inline-flex items-center gap-2.5 bg-gold text-ink px-8 py-4 rounded-lg font-bold text-sm">
+          <a href="#contact" data-route="contact" data-prefill="membership" class="btn inline-flex items-center gap-2.5 bg-gold text-ink px-8 py-4 rounded-lg font-bold text-sm">
             <span class="btn-fill bg-paper"></span>
             Start Your Membership <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
@@ -566,18 +566,18 @@
         <div class="reveal w-13 h-13 p-3 rounded-xl bg-crimson/10 inline-flex items-center justify-center mb-7"><i data-lucide="book-open" class="w-6 h-6 text-crimson"></i></div>
         <div class="reveal tick text-gold mb-4" style="transition-delay:60ms">About</div>
         <h1 class="reveal font-display font-semibold text-4xl sm:text-6xl tracking-[-0.01em] leading-[1.05]" style="transition-delay:120ms">About <span class="font-serifit italic font-medium text-crimson">the Union</span></h1>
-        <p class="reveal mt-5 text-ink-soft leading-relaxed max-w-xl" style="transition-delay:200ms">HASAG is the chartered professional home of every accounting officer, accounts clerk and finance staff working inside Ghana's public health system — one national body, one constitution, one standard of conduct, since 1988.</p>
+        <p class="reveal mt-5 text-ink-soft leading-relaxed max-w-xl" id="site-text-about-intro-text" style="transition-delay:200ms">HASAG is the chartered professional home of every accounting officer, accounts clerk and finance staff working inside Ghana's public health system — one national body, one constitution, one standard of conduct, since 1988.</p>
         <div class="reveal mt-9 bg-white border border-ink/10 rounded-xl shadow-[0_10px_40px_-24px_rgba(18,16,13,.3)] grid grid-cols-3 divide-x divide-ink/10" style="transition-delay:280ms">
           <div class="px-4 sm:px-6 py-4">
-            <div class="font-display font-semibold text-2xl sm:text-3xl">1988</div>
+            <div class="font-display font-semibold text-2xl sm:text-3xl" id="site-text-about-intro-stat-founded">1988</div>
             <div class="tick text-ink-soft mt-1">Founded</div>
           </div>
           <div class="px-4 sm:px-6 py-4">
-            <div class="font-display font-semibold text-2xl sm:text-3xl">16</div>
+            <div class="font-display font-semibold text-2xl sm:text-3xl" id="site-text-about-intro-stat-chapters">16</div>
             <div class="tick text-ink-soft mt-1">Regional Chapters</div>
           </div>
           <div class="px-4 sm:px-6 py-4">
-            <div class="font-display font-semibold text-2xl sm:text-3xl">2,000<span class="text-gold">+</span></div>
+            <div class="font-display font-semibold text-2xl sm:text-3xl" id="site-text-about-intro-stat-members">2,000<span class="text-gold">+</span></div>
             <div class="tick text-ink-soft mt-1">Members</div>
           </div>
         </div>
@@ -585,14 +585,14 @@
       <div class="lg:col-span-5 reveal" style="transition-delay:220ms">
         <div class="relative">
           <div class="absolute -top-3 -right-3 w-full h-full rounded-2xl border border-gold/70 pointer-events-none"></div>
-          <div class="relative rounded-2xl overflow-hidden border-[6px] border-white shadow-[0_30px_70px_-30px_rgba(18,16,13,.45)] aspect-[4/5] bg-cream">
-            <img src="https://images.pexels.com/photos/8112172/pexels-photo-8112172.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=900&w=720" alt="HASAG regional chapter meeting" class="w-full h-full object-cover" />
+          <div class="lazy-img-wrap relative rounded-2xl overflow-hidden border-[6px] border-white shadow-[0_30px_70px_-30px_rgba(18,16,13,.45)] aspect-[4/5] bg-cream">
+            <img id="site-img-about-hero" alt="HASAG regional chapter meeting" class="lazy-img w-full h-full object-cover" loading="lazy" onload="this.classList.add('is-loaded'); this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-loaded')" />
           </div>
           <div class="absolute -bottom-5 -left-4 sm:-left-6 bg-ink text-paper rounded-xl px-4 py-3 shadow-xl flex items-center gap-3">
             <i data-lucide="scale" class="w-5 h-5 text-gold-soft"></i>
             <div class="leading-tight">
-              <div class="font-display font-semibold text-lg">Hasag ·· Integrity.</div>
-              <div class="tick text-paper/50" style="font-size:9px">Our founding motto</div>
+              <div class="font-display font-semibold text-lg" id="site-text-about-hero-motto-title">Hasag ·· Integrity.</div>
+              <div class="tick text-paper/50" style="font-size:9px" id="site-text-about-hero-motto-sub">Our founding motto</div>
             </div>
           </div>
         </div>
@@ -606,12 +606,12 @@
       <div class="pro-card reveal bg-ink text-paper rounded-2xl p-8 sm:p-10">
         <span class="w-11 h-11 rounded-lg bg-paper/10 border border-paper/20 flex items-center justify-center mb-7"><i data-lucide="target" class="w-5 h-5 text-gold-soft"></i></span>
         <div class="tick text-gold-soft mb-3">Our Mission</div>
-        <p class="font-display text-xl sm:text-2xl leading-snug">To organise, train and protect the interests of health accounting staff across Ghana — while holding every member to the highest standard of financial integrity.</p>
+        <p class="font-display text-xl sm:text-2xl leading-snug" id="site-text-about-mv-mission">To organise, train and protect the interests of health accounting staff across Ghana — while holding every member to the highest standard of financial integrity.</p>
       </div>
       <div class="pro-card reveal bg-white border border-ink/10 rounded-2xl p-8 sm:p-10" style="transition-delay:90ms">
         <span class="w-11 h-11 rounded-lg bg-crimson/10 flex items-center justify-center mb-7"><i data-lucide="eye" class="w-5 h-5 text-crimson"></i></span>
         <div class="tick text-gold mb-3">Our Vision</div>
-        <p class="font-display text-xl sm:text-2xl leading-snug text-ink">A Ghanaian health sector where every cedi of public money is recorded, reported and safeguarded by a qualified, respected and united accounting profession.</p>
+        <p class="font-display text-xl sm:text-2xl leading-snug text-ink" id="site-text-about-mv-vision">A Ghanaian health sector where every cedi of public money is recorded, reported and safeguarded by a qualified, respected and united accounting profession.</p>
       </div>
     </div>
   </div>
@@ -639,39 +639,39 @@
 
         <div class="reveal relative pb-12">
           <span class="absolute -left-9 sm:-left-12 top-1 w-4 h-4 rounded-full bg-crimson ring-4 ring-cream"></span>
-          <div class="tick text-gold mb-1.5">1988</div>
-          <h3 class="font-display font-semibold text-xl sm:text-2xl mb-2">Founding of the Union</h3>
-          <p class="text-ink-soft leading-relaxed max-w-2xl">Accounts staff from a handful of regional hospitals convene in Accra to form a professional body dedicated to standards, welfare and training — HASAG is born.</p>
+          <div class="tick text-gold mb-1.5" id="site-text-about-tl-m1-year">1988</div>
+          <h3 class="font-display font-semibold text-xl sm:text-2xl mb-2" id="site-text-about-tl-m1-title">Founding of the Union</h3>
+          <p class="text-ink-soft leading-relaxed max-w-2xl" id="site-text-about-tl-m1-text">Accounts staff from a handful of regional hospitals convene in Accra to form a professional body dedicated to standards, welfare and training — HASAG is born.</p>
         </div>
         <div class="reveal relative pb-12" style="transition-delay:90ms">
           <span class="absolute -left-9 sm:-left-12 top-1 w-4 h-4 rounded-full bg-gold ring-4 ring-cream"></span>
-          <div class="tick text-gold mb-1.5">1994</div>
-          <h3 class="font-display font-semibold text-xl sm:text-2xl mb-2">Constitution Ratified</h3>
-          <p class="text-ink-soft leading-relaxed max-w-2xl">Delegates adopt HASAG's founding constitution at the first National Delegates Congress, establishing the National Executive Council and the Council of Elders.</p>
+          <div class="tick text-gold mb-1.5" id="site-text-about-tl-m2-year">1994</div>
+          <h3 class="font-display font-semibold text-xl sm:text-2xl mb-2" id="site-text-about-tl-m2-title">Constitution Ratified</h3>
+          <p class="text-ink-soft leading-relaxed max-w-2xl" id="site-text-about-tl-m2-text">Delegates adopt HASAG's founding constitution at the first National Delegates Congress, establishing the National Executive Council and the Council of Elders.</p>
         </div>
         <div class="reveal relative pb-12" style="transition-delay:180ms">
           <span class="absolute -left-9 sm:-left-12 top-1 w-4 h-4 rounded-full bg-crimson ring-4 ring-cream"></span>
-          <div class="tick text-gold mb-1.5">2003</div>
-          <h3 class="font-display font-semibold text-xl sm:text-2xl mb-2">Welfare & Benevolence Fund Launched</h3>
-          <p class="text-ink-soft leading-relaxed max-w-2xl">A dues-funded welfare scheme begins supporting members and their families through bereavement, illness and hardship — still a cornerstone of membership today.</p>
+          <div class="tick text-gold mb-1.5" id="site-text-about-tl-m3-year">2003</div>
+          <h3 class="font-display font-semibold text-xl sm:text-2xl mb-2" id="site-text-about-tl-m3-title">Welfare & Benevolence Fund Launched</h3>
+          <p class="text-ink-soft leading-relaxed max-w-2xl" id="site-text-about-tl-m3-text">A dues-funded welfare scheme begins supporting members and their families through bereavement, illness and hardship — still a cornerstone of membership today.</p>
         </div>
         <div class="reveal relative pb-12" style="transition-delay:270ms">
           <span class="absolute -left-9 sm:-left-12 top-1 w-4 h-4 rounded-full bg-gold ring-4 ring-cream"></span>
-          <div class="tick text-gold mb-1.5">2015</div>
-          <h3 class="font-display font-semibold text-xl sm:text-2xl mb-2">National Coverage Completed</h3>
-          <p class="text-ink-soft leading-relaxed max-w-2xl">The sixteenth and final regional chapter is chartered, giving HASAG an unbroken presence across every region of Ghana.</p>
+          <div class="tick text-gold mb-1.5" id="site-text-about-tl-m4-year">2015</div>
+          <h3 class="font-display font-semibold text-xl sm:text-2xl mb-2" id="site-text-about-tl-m4-title">National Coverage Completed</h3>
+          <p class="text-ink-soft leading-relaxed max-w-2xl" id="site-text-about-tl-m4-text">The sixteenth and final regional chapter is chartered, giving HASAG an unbroken presence across every region of Ghana.</p>
         </div>
         <div class="reveal relative pb-12" style="transition-delay:360ms">
           <span class="absolute -left-9 sm:-left-12 top-1 w-4 h-4 rounded-full bg-crimson ring-4 ring-cream"></span>
-          <div class="tick text-gold mb-1.5">2022</div>
-          <h3 class="font-display font-semibold text-xl sm:text-2xl mb-2">GIFMIS & IFRS Rollout</h3>
-          <p class="text-ink-soft leading-relaxed max-w-2xl">HASAG partners with the Ministry of Health to deliver nationwide GIFMIS and IFRS-aligned reporting training, digitising how facility accounts are kept.</p>
+          <div class="tick text-gold mb-1.5" id="site-text-about-tl-m5-year">2022</div>
+          <h3 class="font-display font-semibold text-xl sm:text-2xl mb-2" id="site-text-about-tl-m5-title">GIFMIS & IFRS Rollout</h3>
+          <p class="text-ink-soft leading-relaxed max-w-2xl" id="site-text-about-tl-m5-text">HASAG partners with the Ministry of Health to deliver nationwide GIFMIS and IFRS-aligned reporting training, digitising how facility accounts are kept.</p>
         </div>
         <div class="reveal relative" style="transition-delay:450ms">
           <span class="absolute -left-9 sm:-left-12 top-1 w-4 h-4 rounded-full bg-gold ring-4 ring-cream"></span>
-          <div class="tick text-gold mb-1.5">2025 — Present</div>
-          <h3 class="font-display font-semibold text-xl sm:text-2xl mb-2">Kumasi Congress & Digital Secretariat</h3>
-          <p class="text-ink-soft leading-relaxed max-w-2xl">A new National Executive is elected at the Kumasi Congress, ushering in digitised dues administration and this online home for the Union.</p>
+          <div class="tick text-gold mb-1.5" id="site-text-about-tl-m6-year">2025 — Present</div>
+          <h3 class="font-display font-semibold text-xl sm:text-2xl mb-2" id="site-text-about-tl-m6-title">Kumasi Congress & Digital Secretariat</h3>
+          <p class="text-ink-soft leading-relaxed max-w-2xl" id="site-text-about-tl-m6-text">A new National Executive is elected at the Kumasi Congress, ushering in digitised dues administration and this online home for the Union.</p>
         </div>
       </div>
     </div>
@@ -688,7 +688,7 @@
         <h2 class="reveal font-display font-semibold text-3xl sm:text-4xl lg:text-[2.9rem] leading-[1.1] tracking-[-0.01em]" style="transition-delay:90ms">
           A structure built on <span class="font-serifit italic font-medium text-crimson">accountability</span>
         </h2>
-        <p class="reveal mt-5 text-ink-soft leading-relaxed max-w-xl" style="transition-delay:150ms">HASAG's constitution separates leadership, oversight and wisdom into three distinct bodies — so no single office holds unchecked authority over the Union's affairs.</p>
+        <p class="reveal mt-5 text-ink-soft leading-relaxed max-w-xl" id="site-text-about-gov-intro" style="transition-delay:150ms">HASAG's constitution separates leadership, oversight and wisdom into three distinct bodies — so no single office holds unchecked authority over the Union's affairs.</p>
         <a href="#executives" data-route="executives" class="reveal group inline-flex items-center gap-2.5 mt-8 font-semibold text-sm" style="transition-delay:220ms">
           <span class="link-sweep">Meet the National Executive</span>
           <span class="w-9 h-9 rounded-full border border-ink/20 flex items-center justify-center group-hover:bg-crimson group-hover:border-crimson group-hover:text-paper transition-all duration-300"><i data-lucide="arrow-right" class="w-4 h-4"></i></span>
@@ -699,29 +699,29 @@
           <div class="svc-row flex items-start gap-4 sm:gap-5 py-6 border-b border-ink/15">
             <span class="w-11 h-11 rounded-lg bg-ink flex items-center justify-center shrink-0"><i data-lucide="landmark" class="w-5 h-5 text-gold-soft"></i></span>
             <div>
-              <h3 class="font-display font-semibold text-lg sm:text-xl">National Executive Council</h3>
-              <p class="text-ink-soft text-sm leading-relaxed mt-1">Nine elected officers who run the Union's day-to-day affairs and represent it nationally.</p>
+              <h3 class="font-display font-semibold text-lg sm:text-xl" id="site-text-about-gov-g1-title">National Executive Council</h3>
+              <p class="text-ink-soft text-sm leading-relaxed mt-1" id="site-text-about-gov-g1-text">Nine elected officers who run the Union's day-to-day affairs and represent it nationally.</p>
             </div>
           </div>
           <div class="svc-row flex items-start gap-4 sm:gap-5 py-6 border-b border-ink/15">
             <span class="w-11 h-11 rounded-lg bg-ink flex items-center justify-center shrink-0"><i data-lucide="scroll-text" class="w-5 h-5 text-gold-soft"></i></span>
             <div>
-              <h3 class="font-display font-semibold text-lg sm:text-xl">Council of Elders</h3>
-              <p class="text-ink-soft text-sm leading-relaxed mt-1">Founding and senior members who guide governance, discipline and constitutional interpretation.</p>
+              <h3 class="font-display font-semibold text-lg sm:text-xl" id="site-text-about-gov-g2-title">Council of Elders</h3>
+              <p class="text-ink-soft text-sm leading-relaxed mt-1" id="site-text-about-gov-g2-text">Founding and senior members who guide governance, discipline and constitutional interpretation.</p>
             </div>
           </div>
           <div class="svc-row flex items-start gap-4 sm:gap-5 py-6 border-b border-ink/15">
             <span class="w-11 h-11 rounded-lg bg-ink flex items-center justify-center shrink-0"><i data-lucide="handshake" class="w-5 h-5 text-gold-soft"></i></span>
             <div>
-              <h3 class="font-display font-semibold text-lg sm:text-xl">Patrons</h3>
-              <p class="text-ink-soft text-sm leading-relaxed mt-1">Distinguished non-members who lend their standing and counsel to the Union's mission.</p>
+              <h3 class="font-display font-semibold text-lg sm:text-xl" id="site-text-about-gov-g3-title">Patrons</h3>
+              <p class="text-ink-soft text-sm leading-relaxed mt-1" id="site-text-about-gov-g3-text">Distinguished non-members who lend their standing and counsel to the Union's mission.</p>
             </div>
           </div>
           <div class="svc-row flex items-start gap-4 sm:gap-5 py-6 border-b border-ink/15">
             <span class="w-11 h-11 rounded-lg bg-ink flex items-center justify-center shrink-0"><i data-lucide="map" class="w-5 h-5 text-gold-soft"></i></span>
             <div>
-              <h3 class="font-display font-semibold text-lg sm:text-xl">Regional Chapters</h3>
-              <p class="text-ink-soft text-sm leading-relaxed mt-1">Sixteen chapters, one per region, each electing its own officers and running local welfare and training.</p>
+              <h3 class="font-display font-semibold text-lg sm:text-xl" id="site-text-about-gov-g4-title">Regional Chapters</h3>
+              <p class="text-ink-soft text-sm leading-relaxed mt-1" id="site-text-about-gov-g4-text">Sixteen chapters, one per region, each electing its own officers and running local welfare and training.</p>
             </div>
           </div>
         </div>
@@ -734,10 +734,10 @@
     <div class="reveal relative rounded-3xl bg-crimson text-paper overflow-hidden">
       <div class="relative px-6 sm:px-12 lg:px-16 py-16 lg:py-20 text-center max-w-3xl mx-auto">
         <div class="w-12 h-12 mx-auto rounded-full bg-paper/10 border border-paper/25 flex items-center justify-center mb-7"><i data-lucide="users" class="w-5 h-5 text-gold-soft"></i></div>
-        <h2 class="font-display font-semibold text-3xl sm:text-5xl leading-[1.06] tracking-[-0.01em]">Be part of the <span class="font-serifit italic font-medium text-gold-soft">next chapter</span>.</h2>
-        <p class="mt-5 text-paper/85 leading-relaxed max-w-xl mx-auto">Every accounting officer in Ghana's public health system has a place in this Union — join the professionals keeping the nation's health finances honest.</p>
+        <h2 class="font-display font-semibold text-3xl sm:text-5xl leading-[1.06] tracking-[-0.01em]"><span id="site-text-about-cta-heading-plain">Be part of the</span> <span class="font-serifit italic font-medium text-gold-soft" id="site-text-about-cta-heading-accent">next chapter</span>.</h2>
+        <p class="mt-5 text-paper/85 leading-relaxed max-w-xl mx-auto" id="site-text-about-cta-body">Every accounting officer in Ghana's public health system has a place in this Union — join the professionals keeping the nation's health finances honest.</p>
         <div class="mt-9 flex flex-wrap items-center justify-center gap-4">
-          <a href="#forms" data-route="forms" class="btn inline-flex items-center gap-2.5 bg-gold text-ink px-8 py-4 rounded-lg font-bold text-sm">
+          <a href="#contact" data-route="contact" data-prefill="membership" class="btn inline-flex items-center gap-2.5 bg-gold text-ink px-8 py-4 rounded-lg font-bold text-sm">
             <span class="btn-fill bg-paper"></span>
             Start Your Membership <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
@@ -1231,6 +1231,9 @@
       <button type="button" data-admin-tab="images" class="admin-tab-btn shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors">
         <i data-lucide="image" class="w-4 h-4"></i> Site Images
       </button>
+      <button type="button" data-admin-tab="about" class="admin-tab-btn shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors">
+        <i data-lucide="book-open" class="w-4 h-4"></i> About Page
+      </button>
       <button type="button" data-admin-tab="gallery" class="admin-tab-btn shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors">
         <i data-lucide="images" class="w-4 h-4"></i> Gallery
       </button>
@@ -1304,6 +1307,21 @@
         <div class="tick text-gold mb-3">Executives Page</div>
         <div id="admin-siteimg-executives" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"><!-- populated by renderAdminSiteImages() --></div>
       </div>
+    </div>
+
+    <!-- About Page manager -->
+    <div data-admin-panel="about" class="admin-panel hidden">
+      <div class="flex items-center gap-3 mb-2">
+        <i data-lucide="book-open" class="w-5 h-5 text-crimson"></i>
+        <h2 class="font-display font-semibold text-2xl">About Page</h2>
+      </div>
+      <p class="text-sm text-ink-soft mb-6 max-w-2xl">Every piece of text and the hero photo on the About page — the intro, founding stats, mission &amp; vision, history timeline, governance section and closing call-to-action. Edits appear on the live page immediately.</p>
+
+      <div class="mb-8 max-w-xs">
+        <div class="tick text-gold mb-3">Hero Photo</div>
+        <div id="admin-about-hero" class="grid gap-4"><!-- populated by renderAdminAbout() --></div>
+      </div>
+      <div id="admin-about-text" class="grid sm:grid-cols-2 gap-4"><!-- populated by renderAdminAbout() --></div>
     </div>
 
     <!-- Gallery manager -->
@@ -1490,7 +1508,8 @@ import {
   getAuth, onAuthStateChanged, signInAnonymously
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 import {
-  getFirestore, collection, doc, addDoc, deleteDoc, setDoc, updateDoc, deleteField,
+  getFirestore, initializeFirestore, persistentLocalCache, persistentSingleTabManager,
+  collection, doc, addDoc, deleteDoc, setDoc, updateDoc, deleteField,
   onSnapshot, query, orderBy, serverTimestamp, Timestamp, getDocs, getDoc
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
@@ -1503,7 +1522,16 @@ const firebaseConfig = {
   appId: "1:573750992450:web:6f2945dae5cdffcee557db"
 };
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// Persistent local cache: lets onSnapshot below resolve straight from
+// IndexedDB on repeat visits (near-instant) while still reconciling
+// with the server in the background, instead of every load paying a
+// full network round trip before the real image can show.
+let db;
+try {
+  db = initializeFirestore(app, { localCache: persistentLocalCache({ tabManager: persistentSingleTabManager() }) });
+} catch (e) {
+  db = getFirestore(app); // falls back if persistence unsupported (private browsing, etc.)
+}
 const auth = getAuth(app);
 
 const galleryCol = collection(db, 'gallery');
@@ -1535,6 +1563,65 @@ const SITE_IMAGE_SLOTS = [
       { key: 'quote', label: 'Quote (below photo)', elId: 'site-text-home-what-we-do-quote', default: 'HASAG gives every health accountant — from the smallest clinic to the largest teaching hospital — a professional home and a national voice.', multiline: true },
       { key: 'quoteAttribution', label: 'Quote Attribution', elId: 'site-text-home-what-we-do-quote-attribution', default: 'Office of the President · National Secretariat' }
     ] },
+
+  /* ── About Page ── */
+  { key: 'about-hero', page: 'About Page', label: 'About page hero photo — regional chapter meeting', defaultSrc: 'https://images.pexels.com/photos/8112172/pexels-photo-8112172.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=900&w=720', aspect: 'aspect-[4/5]',
+    fields: [
+      { key: 'mottoTitle', label: 'Badge — Motto', elId: 'site-text-about-hero-motto-title', default: 'Hasag \u00b7\u00b7 Integrity.' },
+      { key: 'mottoSub', label: 'Badge — Subtext', elId: 'site-text-about-hero-motto-sub', default: 'Our founding motto' }
+    ] },
+  { key: 'about-intro', page: 'About Page', label: 'Intro paragraph & founding stats', noPhoto: true,
+    fields: [
+      { key: 'introText', label: 'Intro Paragraph', elId: 'site-text-about-intro-text', multiline: true, default: "HASAG is the chartered professional home of every accounting officer, accounts clerk and finance staff working inside Ghana's public health system — one national body, one constitution, one standard of conduct, since 1988." },
+      { key: 'statFounded', label: 'Stat — Founded Year', elId: 'site-text-about-intro-stat-founded', default: '1988' },
+      { key: 'statChapters', label: 'Stat — Regional Chapters', elId: 'site-text-about-intro-stat-chapters', default: '16' },
+      { key: 'statMembers', label: 'Stat — Members', elId: 'site-text-about-intro-stat-members', default: '2,000+' }
+    ] },
+  { key: 'about-mission-vision', page: 'About Page', label: 'Mission & Vision statements', noPhoto: true,
+    fields: [
+      { key: 'missionText', label: 'Mission Statement', elId: 'site-text-about-mv-mission', multiline: true, default: 'To organise, train and protect the interests of health accounting staff across Ghana — while holding every member to the highest standard of financial integrity.' },
+      { key: 'visionText', label: 'Vision Statement', elId: 'site-text-about-mv-vision', multiline: true, default: 'A Ghanaian health sector where every cedi of public money is recorded, reported and safeguarded by a qualified, respected and united accounting profession.' }
+    ] },
+  { key: 'about-timeline', page: 'About Page', label: 'History timeline (6 milestones)', noPhoto: true,
+    fields: [
+      { key: 'm1Year', label: 'Milestone 1 — Year', elId: 'site-text-about-tl-m1-year', default: '1988' },
+      { key: 'm1Title', label: 'Milestone 1 — Title', elId: 'site-text-about-tl-m1-title', default: 'Founding of the Union' },
+      { key: 'm1Text', label: 'Milestone 1 — Description', elId: 'site-text-about-tl-m1-text', multiline: true, default: 'Accounts staff from a handful of regional hospitals convene in Accra to form a professional body dedicated to standards, welfare and training — HASAG is born.' },
+      { key: 'm2Year', label: 'Milestone 2 — Year', elId: 'site-text-about-tl-m2-year', default: '1994' },
+      { key: 'm2Title', label: 'Milestone 2 — Title', elId: 'site-text-about-tl-m2-title', default: 'Constitution Ratified' },
+      { key: 'm2Text', label: 'Milestone 2 — Description', elId: 'site-text-about-tl-m2-text', multiline: true, default: "Delegates adopt HASAG's founding constitution at the first National Delegates Congress, establishing the National Executive Council and the Council of Elders." },
+      { key: 'm3Year', label: 'Milestone 3 — Year', elId: 'site-text-about-tl-m3-year', default: '2003' },
+      { key: 'm3Title', label: 'Milestone 3 — Title', elId: 'site-text-about-tl-m3-title', default: 'Welfare & Benevolence Fund Launched' },
+      { key: 'm3Text', label: 'Milestone 3 — Description', elId: 'site-text-about-tl-m3-text', multiline: true, default: 'A dues-funded welfare scheme begins supporting members and their families through bereavement, illness and hardship — still a cornerstone of membership today.' },
+      { key: 'm4Year', label: 'Milestone 4 — Year', elId: 'site-text-about-tl-m4-year', default: '2015' },
+      { key: 'm4Title', label: 'Milestone 4 — Title', elId: 'site-text-about-tl-m4-title', default: 'National Coverage Completed' },
+      { key: 'm4Text', label: 'Milestone 4 — Description', elId: 'site-text-about-tl-m4-text', multiline: true, default: 'The sixteenth and final regional chapter is chartered, giving HASAG an unbroken presence across every region of Ghana.' },
+      { key: 'm5Year', label: 'Milestone 5 — Year', elId: 'site-text-about-tl-m5-year', default: '2022' },
+      { key: 'm5Title', label: 'Milestone 5 — Title', elId: 'site-text-about-tl-m5-title', default: 'GIFMIS & IFRS Rollout' },
+      { key: 'm5Text', label: 'Milestone 5 — Description', elId: 'site-text-about-tl-m5-text', multiline: true, default: 'HASAG partners with the Ministry of Health to deliver nationwide GIFMIS and IFRS-aligned reporting training, digitising how facility accounts are kept.' },
+      { key: 'm6Year', label: 'Milestone 6 — Year', elId: 'site-text-about-tl-m6-year', default: '2025 — Present' },
+      { key: 'm6Title', label: 'Milestone 6 — Title', elId: 'site-text-about-tl-m6-title', default: 'Kumasi Congress & Digital Secretariat' },
+      { key: 'm6Text', label: 'Milestone 6 — Description', elId: 'site-text-about-tl-m6-text', multiline: true, default: 'A new National Executive is elected at the Kumasi Congress, ushering in digitised dues administration and this online home for the Union.' }
+    ] },
+  { key: 'about-governance', page: 'About Page', label: 'Governance section (intro + 4 bodies)', noPhoto: true,
+    fields: [
+      { key: 'introText', label: 'Section Intro Paragraph', elId: 'site-text-about-gov-intro', multiline: true, default: "HASAG's constitution separates leadership, oversight and wisdom into three distinct bodies — so no single office holds unchecked authority over the Union's affairs." },
+      { key: 'g1Title', label: 'Body 1 — Title', elId: 'site-text-about-gov-g1-title', default: 'National Executive Council' },
+      { key: 'g1Text', label: 'Body 1 — Description', elId: 'site-text-about-gov-g1-text', multiline: true, default: "Nine elected officers who run the Union's day-to-day affairs and represent it nationally." },
+      { key: 'g2Title', label: 'Body 2 — Title', elId: 'site-text-about-gov-g2-title', default: 'Council of Elders' },
+      { key: 'g2Text', label: 'Body 2 — Description', elId: 'site-text-about-gov-g2-text', multiline: true, default: 'Founding and senior members who guide governance, discipline and constitutional interpretation.' },
+      { key: 'g3Title', label: 'Body 3 — Title', elId: 'site-text-about-gov-g3-title', default: 'Patrons' },
+      { key: 'g3Text', label: 'Body 3 — Description', elId: 'site-text-about-gov-g3-text', multiline: true, default: "Distinguished non-members who lend their standing and counsel to the Union's mission." },
+      { key: 'g4Title', label: 'Body 4 — Title', elId: 'site-text-about-gov-g4-title', default: 'Regional Chapters' },
+      { key: 'g4Text', label: 'Body 4 — Description', elId: 'site-text-about-gov-g4-text', multiline: true, default: 'Sixteen chapters, one per region, each electing its own officers and running local welfare and training.' }
+    ] },
+  { key: 'about-cta', page: 'About Page', label: 'Closing call-to-action', noPhoto: true,
+    fields: [
+      { key: 'headingPlain', label: 'Heading — Plain Part', elId: 'site-text-about-cta-heading-plain', default: 'Be part of the' },
+      { key: 'headingAccent', label: 'Heading — Accent Part', elId: 'site-text-about-cta-heading-accent', default: 'next chapter' },
+      { key: 'bodyText', label: 'Body Text', elId: 'site-text-about-cta-body', multiline: true, default: "Every accounting officer in Ghana's public health system has a place in this Union — join the professionals keeping the nation's health finances honest." }
+    ] },
+
   { key: 'exec-president', page: 'Executives Page', label: 'National President', defaultSrc: 'https://images.pexels.com/photos/16291208/pexels-photo-16291208.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800', aspect: 'aspect-[3/4]', objectClass: 'object-cover object-top',
     fields: [
       { key: 'name', label: 'Name', elId: 'site-text-exec-president-name', default: 'Dr. Kwabena Asante Boateng' },
@@ -1904,11 +1991,9 @@ function renderDocuments() {
 }
 
 /* ───────── Render: Admin manager lists (with delete buttons) ───────── */
-function siteImageCardHTML(slot) {
+function siteFieldsHTML(slot) {
   const current = siteContent.siteImages[slot.key] || {};
-  const src = current.src || slot.defaultSrc;
-  const hasCustomPhoto = !!current.src;
-  const fieldsHTML = (slot.fields || []).map(field => {
+  return (slot.fields || []).map(field => {
     const value = (current[field.key] != null && current[field.key] !== '') ? current[field.key] : field.default;
     const isMultiline = field.multiline || field.key === 'description';
     const inputType = field.key === 'email' ? 'email' : 'text';
@@ -1920,6 +2005,11 @@ function siteImageCardHTML(slot) {
           : `<input type="${inputType}" data-site-text-input data-slot="${slot.key}" data-field="${field.key}" value="${escapeHTML(value)}" class="w-full border border-ink/20 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-crimson" />`}
       </div>`;
   }).join('');
+}
+function siteImageCardHTML(slot) {
+  const current = siteContent.siteImages[slot.key] || {};
+  const src = current.src || slot.defaultSrc;
+  const hasCustomPhoto = !!current.src;
   const aspectClass = slot.aspect || 'aspect-[4/3]';
   const objectClass = slot.objectClass || 'object-cover';
   const roundedClass = slot.rounded || 'rounded-lg';
@@ -1939,7 +2029,14 @@ function siteImageCardHTML(slot) {
         </label>
         ${hasCustomPhoto ? `<button data-reset-slot="${slot.key}" class="w-9 h-9 rounded-lg border border-ink/20 flex items-center justify-center hover:border-crimson hover:text-crimson shrink-0" aria-label="Reset photo to default" title="Reset photo to default"><i data-lucide="rotate-ccw" class="w-4 h-4"></i></button>` : ''}
       </div>
-      ${fieldsHTML}
+      ${siteFieldsHTML(slot)}
+    </div>`;
+}
+function siteTextCardHTML(slot) {
+  return `
+    <div class="bg-white border border-ink/10 rounded-xl p-4 sm:p-5">
+      <div class="text-sm font-semibold leading-snug mb-3">${escapeHTML(slot.label)}</div>
+      ${siteFieldsHTML(slot)}
     </div>`;
 }
 function renderAdminSiteImages() {
@@ -1947,6 +2044,13 @@ function renderAdminSiteImages() {
   const execEl = document.getElementById('admin-siteimg-executives');
   if (homeEl) homeEl.innerHTML = SITE_IMAGE_SLOTS.filter(s => s.page === 'Home Page').map(siteImageCardHTML).join('');
   if (execEl) execEl.innerHTML = SITE_IMAGE_SLOTS.filter(s => s.page === 'Executives Page').map(siteImageCardHTML).join('');
+  lucide.createIcons();
+}
+function renderAdminAbout() {
+  const heroEl = document.getElementById('admin-about-hero');
+  if (heroEl) heroEl.innerHTML = SITE_IMAGE_SLOTS.filter(s => s.key === 'about-hero').map(siteImageCardHTML).join('');
+  const textEl = document.getElementById('admin-about-text');
+  if (textEl) textEl.innerHTML = SITE_IMAGE_SLOTS.filter(s => s.page === 'About Page' && s.noPhoto).map(siteTextCardHTML).join('');
   lucide.createIcons();
 }
 function renderAdminGallery() {
@@ -2005,7 +2109,12 @@ function applySiteImages(map) {
   SITE_IMAGE_SLOTS.forEach(slot => {
     const data = map[slot.key] || {};
     const imgEl = document.getElementById('site-img-' + slot.key);
-    if (imgEl) setLazyImageSrc(imgEl, data.src || slot.defaultSrc);
+    // Home page photos must only ever show the real, admin-uploaded
+    // Firestore image — never the baked-in stock placeholder — so the
+    // wrapper just keeps shimmering until that arrives. Other pages
+    // (e.g. Executives) still fall back to their placeholder photo.
+    const fallback = slot.page === 'Home Page' ? undefined : slot.defaultSrc;
+    if (imgEl) setLazyImageSrc(imgEl, data.src || fallback);
     (slot.fields || []).forEach(field => {
       const el = document.getElementById(field.elId);
       const value = (data[field.key] != null && data[field.key] !== '') ? data[field.key] : field.default;
@@ -2025,6 +2134,7 @@ function renderAll() {
   renderNoticeTicker();
   applySiteImages(siteContent.siteImages);
   renderAdminSiteImages();
+  renderAdminAbout();
   renderAdminGallery();
   renderAdminPubs();
   renderAdminDocs();
@@ -2061,6 +2171,7 @@ onSnapshot(siteImagesCol, snapshot => {
   siteContent.siteImages = map;
   applySiteImages(map);
   renderAdminSiteImages();
+  renderAdminAbout();
   saveContentCache();
 }, err => console.error('Site images listener error', err));
 
@@ -2130,7 +2241,7 @@ function showAdminDashboard() {
   adminSetupView.classList.add('hidden');
   adminLoginView.classList.add('hidden');
   adminDashboard.classList.remove('hidden');
-  renderAdminSiteImages(); renderAdminGallery(); renderAdminPubs(); renderAdminDocs(); renderAdminNotices();
+  renderAdminSiteImages(); renderAdminAbout(); renderAdminGallery(); renderAdminPubs(); renderAdminDocs(); renderAdminNotices();
   setAdminTab('password');
   lucide.createIcons();
 }
@@ -2330,6 +2441,7 @@ async function handleResetSiteImage(e) {
 }
 document.getElementById('admin-siteimg-home').addEventListener('click', handleResetSiteImage);
 document.getElementById('admin-siteimg-executives').addEventListener('click', handleResetSiteImage);
+document.getElementById('admin-about-hero').addEventListener('click', handleResetSiteImage);
 
 /* ───────── Admin: Gallery form + delete ───────── */
 let editingGalleryId = null;
@@ -2622,8 +2734,22 @@ function setRoute(route, push = true) {
   requestAnimationFrame(() => revealScan());
 }
 document.querySelectorAll('[data-route]').forEach(el => {
-  el.addEventListener('click', e => { e.preventDefault(); setRoute(el.dataset.route); });
+  el.addEventListener('click', e => {
+    e.preventDefault();
+    setRoute(el.dataset.route);
+    if (el.dataset.prefill === 'membership') prefillContactForm('membership');
+  });
 });
+function prefillContactForm(intent) {
+  const subjectEl = document.getElementById('contact-subject');
+  const messageEl = document.getElementById('contact-message');
+  if (!subjectEl || !messageEl) return;
+  if (intent === 'membership') {
+    if (!subjectEl.value) subjectEl.value = 'Membership Application';
+    if (!messageEl.value) messageEl.value = "Hello,\n\nI would like to become a member of HASAG. Please let me know the next steps and any forms I need to complete.\n\nThank you.";
+  }
+  document.getElementById('contact-name')?.focus();
+}
 window.addEventListener('hashchange', () => setRoute(location.hash.replace('#', '') || 'home', false));
 window.addEventListener('popstate', () => setRoute(location.hash.replace('#', '') || 'home', false));
 
