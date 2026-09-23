@@ -1924,7 +1924,19 @@ let siteContent = { gallery: [], publications: [], documents: [], siteImages: {}
    read back — synchronously, before Firestore responds — on the
    very next load. Firestore's live listener still runs as normal
    and will correct anything that's changed elsewhere since. */
-const CONTENT_CACHE_KEY = 'hasagContentCacheV1';
+/* Firestore is the source of truth. The built-in (in-code) photos are only
+   used once Firestore has answered for that collection and turned out to be
+   empty — never shown first and then swapped out. */
+const contentReady = { gallery: false, publications: false, siteImages: false };
+function publicGallery() {
+  if (siteContent.gallery.length) return siteContent.gallery;
+  return contentReady.gallery ? SEED_CONTENT.gallery.map((x, i) => ({ id: 'default-' + i, ...x })) : [];
+}
+function publicPublications() {
+  if (siteContent.publications.length) return siteContent.publications;
+  return contentReady.publications ? SEED_CONTENT.publications.map((x, i) => ({ id: 'default-' + i, ...x })) : [];
+}
+const CONTENT_CACHE_KEY = 'hasagContentCacheV2';
 function loadContentCache() {
   try {
     const raw = localStorage.getItem(CONTENT_CACHE_KEY);
@@ -1933,6 +1945,7 @@ function loadContentCache() {
     ['gallery', 'publications', 'documents', 'notices', 'siteImages'].forEach(k => {
       if (cached[k]) siteContent[k] = cached[k];
     });
+    if (cached._ready) Object.keys(contentReady).forEach(k => { if (cached._ready[k]) contentReady[k] = true; });
   } catch (e) { /* corrupt or blocked cache — safe to ignore, Firestore will fill in */ }
 }
 function saveContentCache() {
@@ -1942,7 +1955,8 @@ function saveContentCache() {
       publications: siteContent.publications,
       documents: siteContent.documents,
       notices: siteContent.notices,
-      siteImages: siteContent.siteImages
+      siteImages: siteContent.siteImages,
+      _ready: contentReady
     }));
   } catch (e) { /* storage full/unavailable — safe to ignore */ }
 }
@@ -2017,18 +2031,19 @@ function galleryCardHTML(item, variant, index, isFirst, isLast) {
     </figure>`;
 }
 function renderGallery() {
+  const gItems = publicGallery();
   const strip = document.getElementById('home-gallery-strip');
   if (strip) {
     const max = +strip.dataset.max || 6;
-    strip.innerHTML = siteContent.gallery.length
-      ? siteContent.gallery.slice(0, max).map((i, idx, arr) => galleryCardHTML(i, 'strip', idx, idx === 0, idx === arr.length - 1)).join('')
-      : `<p class="text-ink-soft text-sm py-6 mx-auto">No gallery images yet.</p>`;
+    strip.innerHTML = gItems.length
+      ? gItems.slice(0, max).map((i, idx, arr) => galleryCardHTML(i, 'strip', idx, idx === 0, idx === arr.length - 1)).join('')
+      : (contentReady.gallery ? `<p class="text-ink-soft text-sm py-6 mx-auto">No gallery images yet.</p>` : '');
   }
   const full = document.getElementById('gallery-full-grid');
   if (full) {
-    full.innerHTML = siteContent.gallery.length
-      ? siteContent.gallery.map((i, idx) => galleryCardHTML(i, 'grid', idx)).join('')
-      : `<p class="text-ink-soft text-sm py-6 col-span-full">No gallery images have been uploaded yet.</p>`;
+    full.innerHTML = gItems.length
+      ? gItems.map((i, idx) => galleryCardHTML(i, 'grid', idx)).join('')
+      : (contentReady.gallery ? `<p class="text-ink-soft text-sm py-6 col-span-full">No gallery images have been uploaded yet.</p>` : '');
   }
   lucide.createIcons();
 }
@@ -2101,23 +2116,24 @@ function pubCompactRowHTML(item, index) {
 function renderPublications() {
   const featuredEl = document.getElementById('home-pub-featured');
   const listEl = document.getElementById('home-pub-list');
+  const pItems = publicPublications();
   if (featuredEl && listEl) {
-    if (siteContent.publications.length) {
-      const [first, ...rest] = siteContent.publications;
+    if (pItems.length) {
+      const [first, ...rest] = pItems;
       featuredEl.innerHTML = pubFeaturedCardHTML(first, 0);
       listEl.innerHTML = rest.length
         ? rest.slice(0, 3).map((item, i) => pubCompactRowHTML(item, i + 1)).join('')
         : `<p class="text-ink-soft text-sm py-6">More publications will appear here.</p>`;
     } else {
-      featuredEl.innerHTML = `<p class="text-ink-soft text-sm py-6">No publications yet.</p>`;
+      featuredEl.innerHTML = contentReady.publications ? `<p class="text-ink-soft text-sm py-6">No publications yet.</p>` : '';
       listEl.innerHTML = '';
     }
   }
   const full = document.getElementById('pubs-full-grid');
   if (full) {
-    full.innerHTML = siteContent.publications.length
-      ? siteContent.publications.map((i, idx) => pubCardHTML(i, false, idx)).join('')
-      : `<p class="text-ink-soft text-sm py-6 col-span-full">No publications have been uploaded yet.</p>`;
+    full.innerHTML = pItems.length
+      ? pItems.map((i, idx) => pubCardHTML(i, false, idx)).join('')
+      : (contentReady.publications ? `<p class="text-ink-soft text-sm py-6 col-span-full">No publications have been uploaded yet.</p>` : '');
   }
   lucide.createIcons();
 }
@@ -2271,7 +2287,10 @@ function applySiteImages(map) {
     // Every slot shows its real, admin-uploaded Firestore image first;
     // until one has been saved (or if it's ever removed), it falls back
     // to the slot's preloaded stock photo so the page is never left blank.
-    if (imgEl) setLazyImageSrc(imgEl, data.src || slot.defaultSrc);
+    if (imgEl) {
+      if (data.src) setLazyImageSrc(imgEl, data.src);
+      else if (contentReady.siteImages) setLazyImageSrc(imgEl, slot.defaultSrc);
+    }
     (slot.fields || []).forEach(field => {
       const el = document.getElementById(field.elId);
       const value = (data[field.key] != null && data[field.key] !== '') ? data[field.key] : field.default;
@@ -2303,11 +2322,15 @@ renderAll();
    Each collection is watched in real time; any admin add/remove
    (from this browser or any other) updates every open page. */
 onSnapshot(query(galleryCol, orderBy('createdAt', 'desc')), snapshot => {
+  if (snapshot.metadata.fromCache && snapshot.empty && !contentReady.gallery) return; // wait for the server's answer
+  contentReady.gallery = true;
   siteContent.gallery = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
   renderGallery(); renderAdminGallery(); saveContentCache();
 }, err => console.error('Gallery listener error', err));
 
 onSnapshot(query(pubsCol, orderBy('createdAt', 'desc')), snapshot => {
+  if (snapshot.metadata.fromCache && snapshot.empty && !contentReady.publications) return; // wait for the server's answer
+  contentReady.publications = true;
   siteContent.publications = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
   renderPublications(); renderAdminPubs(); saveContentCache();
 }, err => console.error('Publications listener error', err));
@@ -2323,6 +2346,8 @@ onSnapshot(query(noticesCol, orderBy('createdAt', 'asc')), snapshot => {
 }, err => console.error('Notices listener error', err));
 
 onSnapshot(siteImagesCol, snapshot => {
+  if (snapshot.metadata.fromCache && snapshot.empty && !contentReady.siteImages) return; // wait for the server's answer
+  contentReady.siteImages = true;
   const map = {};
   snapshot.forEach(d => { map[d.id] = d.data(); });
   siteContent.siteImages = map;
@@ -2331,6 +2356,14 @@ onSnapshot(siteImagesCol, snapshot => {
   renderAdminAbout();
   saveContentCache();
 }, err => console.error('Site images listener error', err));
+
+/* Safety net: if Firestore can't be reached, fall back to the built-in
+   photos after a few seconds instead of leaving the page without images. */
+setTimeout(() => {
+  if (Object.values(contentReady).every(Boolean)) return;
+  Object.keys(contentReady).forEach(k => { contentReady[k] = true; });
+  renderAll();
+}, 6000);
 
 /* ───────── Admin: login gate (hashed password, stored in Firestore) ─────────
    One shared password, checked here in the browser rather than by
@@ -2660,8 +2693,8 @@ document.getElementById('admin-gallery-list').addEventListener('click', async e 
    within its own list — the "attached to the edge" spacing trick used for the
    home gallery strip is a strip-only layout detail and isn't part of this. */
 const LIGHTBOX_SOURCES = {
-  gallery: () => (siteContent.gallery || []).map(i => ({ src: i.src, caption: i.caption || '' })),
-  pub: () => (siteContent.publications || []).map(i => ({ src: i.image, caption: i.title || '' })),
+  gallery: () => publicGallery().map(i => ({ src: i.src, caption: i.caption || '' })),
+  pub: () => publicPublications().map(i => ({ src: i.image, caption: i.title || '' })),
 };
 let lightboxSource = null;
 let lightboxIndex = null;
