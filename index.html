@@ -8,7 +8,7 @@
      runtime compiler hasn't finished (or fails to load) before
      images/layout paint. */
   html, body { max-width: 100%; overflow-x: hidden; }
-  img { max-width: 100%; height: auto; }
+  img { max-width: 100%; }
 </style>
 <title>HASAG — Health Accounting Staff Association of Ghana</title>
 <meta name="description" content="Health Accounting Staff Association of Ghana — Hasag ·· Integrity. The professional body for health accounting staff across Ghana." />
@@ -98,6 +98,14 @@
   #mobile-menu.open { transform: translateY(0); }
   #mobile-menu .m-link { opacity: 0; transform: translateY(18px); transition: all .5s cubic-bezier(.16,1,.3,1); }
   #mobile-menu.open .m-link { opacity: 1; transform: none; }
+
+  /* Admin dashboard tabs */
+  .admin-tab-btn { color: #57524A; border: 1px solid transparent; }
+  .admin-tab-btn:hover { color: #12100D; background: #F4F0E7; }
+  .admin-tab-btn.active { background: #12100D; color: #FBF9F5; }
+  #admin-tabs::-webkit-scrollbar { display: none; }
+  .admin-panel { animation: adminPanelIn .35s cubic-bezier(.16,1,.3,1); }
+  @keyframes adminPanelIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
@@ -194,7 +202,7 @@
       <div class="lg:col-span-7">
         <div class="reveal inline-flex items-center gap-2.5 border border-ink/15 bg-white/70 rounded-full px-4 py-2 mb-7">
           <span class="w-2 h-2 rounded-full bg-crimson"></span>
-          <span class="tick text-ink-soft">Est. 1988 · Chartered Professional Association</span>
+          <span class="tick text-ink-soft">Est. 1988 · Chartered Professional Union</span>
         </div>
 
         <h1 class="reveal font-display font-semibold text-[clamp(2.6rem,6.2vw,4.9rem)] leading-[1.04] tracking-[-0.015em]" style="transition-delay:90ms">
@@ -242,16 +250,16 @@
           <div class="relative rounded-2xl overflow-hidden border-[6px] border-white shadow-[0_30px_70px_-30px_rgba(18,16,13,.45)] aspect-[4/5] bg-cream">
             <img id="site-img-home-hero" src="https://images.pexels.com/photos/8123816/pexels-photo-8123816.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="HASAG member addressing a professional development session" class="w-full h-full object-cover" />
             <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/85 via-ink/30 to-transparent pt-16 pb-5 px-5">
-              <div class="text-paper text-sm font-medium">Continuous Professional Development Session</div>
-              <div class="tick text-paper/60 mt-1">National Secretariat · 2026</div>
+              <div id="site-text-home-hero-caption-title" class="text-paper text-sm font-medium">Continuous Professional Development Session</div>
+              <div id="site-text-home-hero-caption-sub" class="tick text-paper/60 mt-1">National Secretariat · 2026</div>
             </div>
           </div>
           <!-- Static badge -->
           <div class="absolute -top-5 -left-4 sm:-left-6 bg-ink text-paper rounded-xl px-4 py-3 shadow-xl flex items-center gap-3">
             <i data-lucide="shield-check" class="w-5 h-5 text-gold-soft"></i>
             <div class="leading-tight">
-              <div class="font-display font-semibold text-lg">Est. 1988</div>
-              <div class="tick text-paper/50" style="font-size:9px">38 Yrs of Service</div>
+              <div id="site-text-home-hero-badge-year" class="font-display font-semibold text-lg">Est. 1988</div>
+              <div id="site-text-home-hero-badge-sub" class="tick text-paper/50" style="font-size:9px">38 Yrs of Service</div>
             </div>
           </div>
         </div>
@@ -283,8 +291,8 @@
             <img id="site-img-home-about" src="https://images.pexels.com/photos/8549944/pexels-photo-8549944.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Two HASAG members reviewing facility accounts" class="w-full h-full object-cover" />
           </div>
           <div class="absolute -bottom-6 right-4 sm:right-8 bg-ink text-paper rounded-xl px-5 py-4 shadow-xl">
-            <div class="font-display font-semibold text-2xl text-gold-soft">38<span class="text-crimson">+</span> Years</div>
-            <div class="tick text-paper/50 mt-0.5" style="font-size:9px">Serving the Health Sector</div>
+            <div class="font-display font-semibold text-2xl text-gold-soft"><span id="site-text-home-about-badge-years">38</span><span class="text-crimson">+</span> Years</div>
+            <div id="site-text-home-about-badge-sub" class="tick text-paper/50 mt-0.5" style="font-size:9px">Serving the Health Sector</div>
           </div>
         </div>
       </div>
@@ -306,7 +314,7 @@
           <li class="flex items-start gap-3"><span class="mt-0.5 w-5 h-5 rounded-full bg-crimson/10 flex items-center justify-center shrink-0"><i data-lucide="check" class="w-3 h-3 text-crimson"></i></span><span class="text-[15px]">Structured continuous professional development, workshops and national congresses.</span></li>
         </ul>
         <a href="#about" data-route="about" class="reveal group inline-flex items-center gap-2.5 mt-8 font-semibold text-sm" style="transition-delay:340ms">
-          <span class="link-sweep">More about the Association</span>
+          <span class="link-sweep">More about the Union</span>
           <span class="w-9 h-9 rounded-full border border-ink/20 flex items-center justify-center group-hover:bg-crimson group-hover:border-crimson group-hover:text-paper transition-all duration-300"><i data-lucide="arrow-right" class="w-4 h-4"></i></span>
         </a>
       </div>
@@ -399,7 +407,7 @@
             <span class="tick text-gold">What We Do</span>
           </div>
           <h2 class="reveal font-display font-semibold text-3xl sm:text-4xl lg:text-[2.9rem] leading-[1.1] tracking-[-0.01em]" style="transition-delay:90ms">
-            An association that <span class="font-serifit italic font-medium text-crimson">works</span> for its members
+            A union that <span class="font-serifit italic font-medium text-crimson">works</span> for its members
           </h2>
 
           <div class="reveal mt-9 border-t border-ink/15" style="transition-delay:180ms">
@@ -441,8 +449,8 @@
           </div>
           <figure class="reveal mt-6 bg-ink text-paper rounded-2xl p-7 sm:p-8" style="transition-delay:300ms">
             <i data-lucide="quote" class="w-7 h-7 text-gold-soft mb-4"></i>
-            <blockquote class="font-display italic text-lg sm:text-xl leading-relaxed">HASAG gives every health accountant — from the smallest clinic to the largest teaching hospital — a professional home and a national voice.</blockquote>
-            <figcaption class="tick text-paper/50 mt-5">Office of the President · National Secretariat</figcaption>
+            <blockquote id="site-text-home-what-we-do-quote" class="font-display italic text-lg sm:text-xl leading-relaxed">HASAG gives every health accountant — from the smallest clinic to the largest teaching hospital — a professional home and a national voice.</blockquote>
+            <figcaption id="site-text-home-what-we-do-quote-attribution" class="tick text-paper/50 mt-5">Office of the President · National Secretariat</figcaption>
           </figure>
         </div>
       </div>
@@ -506,7 +514,7 @@
           <span class="tick text-gold">Gallery</span>
         </div>
         <h2 class="reveal font-display font-semibold text-3xl sm:text-4xl lg:text-[2.9rem] leading-[1.1] tracking-[-0.01em]" style="transition-delay:90ms">
-          Moments from the <span class="font-serifit italic font-medium text-crimson">Association</span>
+          Moments from the <span class="font-serifit italic font-medium text-crimson">Union</span>
         </h2>
       </div>
       <a href="#gallery" data-route="gallery" class="reveal inline-flex items-center gap-2 font-semibold text-sm link-sweep" style="transition-delay:180ms">View full gallery <i data-lucide="images" class="w-4 h-4 text-crimson"></i></a>
@@ -523,7 +531,7 @@
       <div class="relative px-6 sm:px-12 lg:px-16 py-16 lg:py-20 text-center max-w-3xl mx-auto">
         <div class="w-12 h-12 mx-auto rounded-full bg-paper/10 border border-paper/25 flex items-center justify-center mb-7"><i data-lucide="landmark" class="w-5 h-5 text-gold-soft"></i></div>
         <h2 class="font-display font-semibold text-3xl sm:text-5xl lg:text-6xl leading-[1.06] tracking-[-0.01em]">Carry the badge.<br /><span class="font-serifit italic font-medium text-gold-soft">Keep the books honest.</span></h2>
-        <p class="mt-5 text-paper/85 leading-relaxed max-w-xl mx-auto">If you serve in the accounts directorate of any health institution in Ghana, there is a place for you in this association.</p>
+        <p class="mt-5 text-paper/85 leading-relaxed max-w-xl mx-auto">If you serve in the accounts directorate of any health institution in Ghana, there is a place for you in this union.</p>
         <div class="mt-9 flex flex-wrap items-center justify-center gap-4">
           <a href="#forms" data-route="forms" class="btn inline-flex items-center gap-2.5 bg-gold text-ink px-8 py-4 rounded-lg font-bold text-sm">
             <span class="btn-fill bg-paper"></span>
@@ -545,7 +553,7 @@
       <div class="lg:col-span-7">
         <div class="reveal w-13 h-13 p-3 rounded-xl bg-crimson/10 inline-flex items-center justify-center mb-7"><i data-lucide="book-open" class="w-6 h-6 text-crimson"></i></div>
         <div class="reveal tick text-gold mb-4" style="transition-delay:60ms">About</div>
-        <h1 class="reveal font-display font-semibold text-4xl sm:text-6xl tracking-[-0.01em] leading-[1.05]" style="transition-delay:120ms">About <span class="font-serifit italic font-medium text-crimson">the Association</span></h1>
+        <h1 class="reveal font-display font-semibold text-4xl sm:text-6xl tracking-[-0.01em] leading-[1.05]" style="transition-delay:120ms">About <span class="font-serifit italic font-medium text-crimson">the Union</span></h1>
         <p class="reveal mt-5 text-ink-soft leading-relaxed max-w-xl" style="transition-delay:200ms">HASAG is the chartered professional home of every accounting officer, accounts clerk and finance staff working inside Ghana's public health system — one national body, one constitution, one standard of conduct, since 1988.</p>
         <div class="reveal mt-9 bg-white border border-ink/10 rounded-xl shadow-[0_10px_40px_-24px_rgba(18,16,13,.3)] grid grid-cols-3 divide-x divide-ink/10" style="transition-delay:280ms">
           <div class="px-4 sm:px-6 py-4">
@@ -610,7 +618,7 @@
           </h2>
         </div>
         <div class="lg:col-span-4 reveal" style="transition-delay:180ms">
-          <p class="text-ink-soft text-[15px] leading-relaxed lg:text-right lg:pl-8">From a handful of hospital accounts clerks to a chartered national association — the milestones that shaped HASAG.</p>
+          <p class="text-ink-soft text-[15px] leading-relaxed lg:text-right lg:pl-8">From a handful of hospital accounts clerks to a chartered national union — the milestones that shaped HASAG.</p>
         </div>
       </div>
 
@@ -620,7 +628,7 @@
         <div class="reveal relative pb-12">
           <span class="absolute -left-9 sm:-left-12 top-1 w-4 h-4 rounded-full bg-crimson ring-4 ring-cream"></span>
           <div class="tick text-gold mb-1.5">1988</div>
-          <h3 class="font-display font-semibold text-xl sm:text-2xl mb-2">Founding of the Association</h3>
+          <h3 class="font-display font-semibold text-xl sm:text-2xl mb-2">Founding of the Union</h3>
           <p class="text-ink-soft leading-relaxed max-w-2xl">Accounts staff from a handful of regional hospitals convene in Accra to form a professional body dedicated to standards, welfare and training — HASAG is born.</p>
         </div>
         <div class="reveal relative pb-12" style="transition-delay:90ms">
@@ -651,7 +659,7 @@
           <span class="absolute -left-9 sm:-left-12 top-1 w-4 h-4 rounded-full bg-gold ring-4 ring-cream"></span>
           <div class="tick text-gold mb-1.5">2025 — Present</div>
           <h3 class="font-display font-semibold text-xl sm:text-2xl mb-2">Kumasi Congress & Digital Secretariat</h3>
-          <p class="text-ink-soft leading-relaxed max-w-2xl">A new National Executive is elected at the Kumasi Congress, ushering in digitised dues administration and this online home for the Association.</p>
+          <p class="text-ink-soft leading-relaxed max-w-2xl">A new National Executive is elected at the Kumasi Congress, ushering in digitised dues administration and this online home for the Union.</p>
         </div>
       </div>
     </div>
@@ -668,7 +676,7 @@
         <h2 class="reveal font-display font-semibold text-3xl sm:text-4xl lg:text-[2.9rem] leading-[1.1] tracking-[-0.01em]" style="transition-delay:90ms">
           A structure built on <span class="font-serifit italic font-medium text-crimson">accountability</span>
         </h2>
-        <p class="reveal mt-5 text-ink-soft leading-relaxed max-w-xl" style="transition-delay:150ms">HASAG's constitution separates leadership, oversight and wisdom into three distinct bodies — so no single office holds unchecked authority over the Association's affairs.</p>
+        <p class="reveal mt-5 text-ink-soft leading-relaxed max-w-xl" style="transition-delay:150ms">HASAG's constitution separates leadership, oversight and wisdom into three distinct bodies — so no single office holds unchecked authority over the Union's affairs.</p>
         <a href="#executives" data-route="executives" class="reveal group inline-flex items-center gap-2.5 mt-8 font-semibold text-sm" style="transition-delay:220ms">
           <span class="link-sweep">Meet the National Executive</span>
           <span class="w-9 h-9 rounded-full border border-ink/20 flex items-center justify-center group-hover:bg-crimson group-hover:border-crimson group-hover:text-paper transition-all duration-300"><i data-lucide="arrow-right" class="w-4 h-4"></i></span>
@@ -680,7 +688,7 @@
             <span class="w-11 h-11 rounded-lg bg-ink flex items-center justify-center shrink-0"><i data-lucide="landmark" class="w-5 h-5 text-gold-soft"></i></span>
             <div>
               <h3 class="font-display font-semibold text-lg sm:text-xl">National Executive Council</h3>
-              <p class="text-ink-soft text-sm leading-relaxed mt-1">Nine elected officers who run the Association's day-to-day affairs and represent it nationally.</p>
+              <p class="text-ink-soft text-sm leading-relaxed mt-1">Nine elected officers who run the Union's day-to-day affairs and represent it nationally.</p>
             </div>
           </div>
           <div class="svc-row flex items-start gap-4 sm:gap-5 py-6 border-b border-ink/15">
@@ -694,7 +702,7 @@
             <span class="w-11 h-11 rounded-lg bg-ink flex items-center justify-center shrink-0"><i data-lucide="handshake" class="w-5 h-5 text-gold-soft"></i></span>
             <div>
               <h3 class="font-display font-semibold text-lg sm:text-xl">Patrons</h3>
-              <p class="text-ink-soft text-sm leading-relaxed mt-1">Distinguished non-members who lend their standing and counsel to the Association's mission.</p>
+              <p class="text-ink-soft text-sm leading-relaxed mt-1">Distinguished non-members who lend their standing and counsel to the Union's mission.</p>
             </div>
           </div>
           <div class="svc-row flex items-start gap-4 sm:gap-5 py-6 border-b border-ink/15">
@@ -715,7 +723,7 @@
       <div class="relative px-6 sm:px-12 lg:px-16 py-16 lg:py-20 text-center max-w-3xl mx-auto">
         <div class="w-12 h-12 mx-auto rounded-full bg-paper/10 border border-paper/25 flex items-center justify-center mb-7"><i data-lucide="users" class="w-5 h-5 text-gold-soft"></i></div>
         <h2 class="font-display font-semibold text-3xl sm:text-5xl leading-[1.06] tracking-[-0.01em]">Be part of the <span class="font-serifit italic font-medium text-gold-soft">next chapter</span>.</h2>
-        <p class="mt-5 text-paper/85 leading-relaxed max-w-xl mx-auto">Every accounting officer in Ghana's public health system has a place in this Association — join the professionals keeping the nation's health finances honest.</p>
+        <p class="mt-5 text-paper/85 leading-relaxed max-w-xl mx-auto">Every accounting officer in Ghana's public health system has a place in this Union — join the professionals keeping the nation's health finances honest.</p>
         <div class="mt-9 flex flex-wrap items-center justify-center gap-4">
           <a href="#forms" data-route="forms" class="btn inline-flex items-center gap-2.5 bg-gold text-ink px-8 py-4 rounded-lg font-bold text-sm">
             <span class="btn-fill bg-paper"></span>
@@ -743,7 +751,7 @@
             The National <span class="font-serifit italic font-medium text-crimson">Executives</span>
           </h1>
           <p class="reveal mt-5 max-w-2xl text-ink-soft leading-relaxed" style="transition-delay:180ms">
-            Duly elected at the Biennial National Congress, these officers steer the affairs of the Association — accountable to the membership and guided by the constitution.
+            Duly elected at the Biennial National Congress, these officers steer the affairs of the Union — accountable to the membership and guided by the constitution.
           </p>
         </div>
         <div class="lg:col-span-4 reveal lg:justify-self-end w-full lg:w-auto" style="transition-delay:260ms">
@@ -768,7 +776,7 @@
           <div class="relative rounded-2xl overflow-hidden border-[6px] border-white shadow-[0_30px_70px_-30px_rgba(18,16,13,.45)] aspect-[3/4] bg-cream">
             <img id="site-img-exec-president" src="https://images.pexels.com/photos/16291208/pexels-photo-16291208.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Dr. Kwabena Asante Boateng — National President of HASAG" class="w-full h-full object-cover object-top" />
           </div>
-          <div class="absolute -bottom-5 left-5 bg-crimson text-paper rounded-lg px-4 py-2.5 shadow-xl tick" style="font-size:10px">National President</div>
+          <div id="site-text-exec-president-badge" class="absolute -bottom-5 left-5 bg-crimson text-paper rounded-lg px-4 py-2.5 shadow-xl tick" style="font-size:10px">National President</div>
         </div>
       </div>
       <div class="lg:col-span-8 lg:pl-4">
@@ -779,7 +787,7 @@
         <h2 id="site-text-exec-president-name" class="reveal font-display font-semibold text-3xl sm:text-5xl tracking-[-0.01em] leading-[1.08]" style="transition-delay:90ms">Dr. Kwabena Asante Boateng</h2>
         <p id="site-text-exec-president-position" class="reveal mt-2 text-sm font-semibold text-ink-soft" style="transition-delay:160ms">National President · HASAG &nbsp;·&nbsp; Elected 2025 — Kumasi Congress</p>
         <p id="site-text-exec-president-description" class="reveal mt-5 text-ink-soft leading-relaxed max-w-2xl" style="transition-delay:220ms">
-          A career health-sector accountant with over two decades of service across district, regional and teaching hospital directorates, Dr. Boateng leads the Association's reform agenda — digitised dues administration, IFRS-aligned reporting, and a stronger welfare promise for every member.
+          A career health-sector accountant with over two decades of service across district, regional and teaching hospital directorates, Dr. Boateng leads the Union's reform agenda — digitised dues administration, IFRS-aligned reporting, and a stronger welfare promise for every member.
         </p>
         <figure class="reveal mt-7 border-l-[3px] border-crimson pl-6 max-w-2xl" style="transition-delay:300ms">
           <blockquote class="font-display italic text-xl sm:text-2xl leading-relaxed text-ink">"Our integrity is the license under which we serve. Every ledger we keep must honour the public we account to."</blockquote>
@@ -803,7 +811,7 @@
             <span class="tick text-gold">Executive Council</span>
           </div>
           <h2 class="reveal font-display font-semibold text-3xl sm:text-4xl lg:text-[2.9rem] leading-[1.1] tracking-[-0.01em]" style="transition-delay:90ms">
-            Officers of the <span class="font-serifit italic font-medium text-crimson">Association</span>
+            Officers of the <span class="font-serifit italic font-medium text-crimson">Union</span>
           </h2>
         </div>
         <p class="reveal text-ink-soft text-sm max-w-xs lg:text-right" style="transition-delay:180ms">Nine elected offices, sworn to serve every member in every facility across the sixteen regions.</p>
@@ -907,7 +915,7 @@
             The Council of Elders <span class="font-serifit italic font-medium text-gold-soft">& Patrons</span>
           </h2>
         </div>
-        <p class="reveal text-paper/55 text-sm max-w-sm lg:text-right" style="transition-delay:180ms">Standing above the elected council, the Council of Elders advises the Association, preserves its constitution and arbitrates on matters of state.</p>
+        <p class="reveal text-paper/55 text-sm max-w-sm lg:text-right" style="transition-delay:180ms">Standing above the elected council, the Council of Elders advises the Union, preserves its constitution and arbitrates on matters of state.</p>
       </div>
 
       <!-- Council Chairman -->
@@ -917,10 +925,10 @@
           <img id="site-img-elders-chairman" src="https://images.pexels.com/photos/8068725/pexels-photo-8068725.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Eld. Samuel Ofori-Atta — Chairman of the Council of Elders" class="w-40 h-44 sm:w-48 sm:h-56 object-cover object-top rounded-xl" />
         </div>
         <div class="text-center md:text-left">
-          <div class="inline-flex items-center gap-2 bg-gold text-ink rounded-md px-3.5 py-2 tick" style="font-size:10px"><i data-lucide="landmark" class="w-3.5 h-3.5"></i> Chairman · Council of Elders</div>
+          <div class="inline-flex items-center gap-2 bg-gold text-ink rounded-md px-3.5 py-2 tick" style="font-size:10px"><i data-lucide="landmark" class="w-3.5 h-3.5"></i> <span id="site-text-elders-chairman-badge">Chairman · Council of Elders</span></div>
           <h3 id="site-text-elders-chairman-name" class="font-display font-semibold text-2xl sm:text-3xl mt-4">Eld. Samuel Ofori-Atta</h3>
           <p id="site-text-elders-chairman-position" class="text-gold-soft text-sm mt-1">Retired Principal Accountant — Korle Bu Teaching Hospital</p>
-          <p id="site-text-elders-chairman-description" class="text-paper/60 leading-relaxed mt-4 max-w-2xl">A founding member of the Association and custodian of its constitution, Elder Ofori-Atta chairs the Council of Elders — guiding the National Executive on governance, discipline and the preservation of the founding values of HASAG.</p>
+          <p id="site-text-elders-chairman-description" class="text-paper/60 leading-relaxed mt-4 max-w-2xl">A founding member of the Union and custodian of its constitution, Elder Ofori-Atta chairs the Council of Elders — guiding the National Executive on governance, discipline and the preservation of the founding values of HASAG.</p>
           <div class="flex flex-wrap justify-center md:justify-start gap-3 mt-6">
             <span class="inline-flex items-center gap-2 border border-paper/15 rounded-lg px-3.5 py-2 text-xs text-paper/60"><i data-lucide="award" class="w-3.5 h-3.5 text-gold"></i> 30+ years of service</span>
             <span class="inline-flex items-center gap-2 border border-paper/15 rounded-lg px-3.5 py-2 text-xs text-paper/60"><i data-lucide="scroll-text" class="w-3.5 h-3.5 text-gold"></i> Custodian of the Constitution</span>
@@ -932,19 +940,19 @@
       <div class="grid sm:grid-cols-3 gap-5">
         <article class="reveal bg-white/5 border border-paper/10 rounded-2xl p-7 text-center pro-card" style="border-color: rgba(251,249,245,.1)">
           <img id="site-img-patron-1" src="https://images.pexels.com/photos/11397093/pexels-photo-11397093.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Elder Joshua Kwame Ayitey — Patron of HASAG" class="w-24 h-24 rounded-full object-cover object-top mx-auto border-2 border-gold/60" />
-          <div class="tick text-gold mt-5" style="font-size:10px">Patron</div>
+          <div id="site-text-patron-1-role" class="tick text-gold mt-5" style="font-size:10px">Patron</div>
           <h3 id="site-text-patron-1-name" class="font-display font-semibold text-xl mt-2">Elder Joshua Kwame Ayitey</h3>
           <p id="site-text-patron-1-description" class="text-paper/50 text-xs mt-2 leading-relaxed">Former Director of Finance, Ministry of Health. Patron since 2014.</p>
         </article>
         <article class="reveal bg-white/5 border border-paper/10 rounded-2xl p-7 text-center pro-card" style="transition-delay:100ms; border-color: rgba(251,249,245,.1)">
           <img id="site-img-patron-2" src="https://images.pexels.com/photos/18460522/pexels-photo-18460522.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Nanahemaa Adwoa Pinamang — Patroness of HASAG" class="w-24 h-24 rounded-full object-cover object-top mx-auto border-2 border-gold/60" />
-          <div class="tick text-gold mt-5" style="font-size:10px">Patroness</div>
+          <div id="site-text-patron-2-role" class="tick text-gold mt-5" style="font-size:10px">Patroness</div>
           <h3 id="site-text-patron-2-name" class="font-display font-semibold text-xl mt-2">Nanahemaa Adwoa Pinamang</h3>
           <p id="site-text-patron-2-description" class="text-paper/50 text-xs mt-2 leading-relaxed">Queen Mother and lifelong advocate for health workers' welfare. Patroness since 2018.</p>
         </article>
         <article class="reveal bg-white/5 border border-paper/10 rounded-2xl p-7 text-center pro-card" style="transition-delay:200ms; border-color: rgba(251,249,245,.1)">
           <img id="site-img-patron-3" src="https://images.pexels.com/photos/11975215/pexels-photo-11975215.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800" alt="Alhaji Seidu Mahama — Patron of HASAG" class="w-24 h-24 rounded-full object-cover object-top mx-auto border-2 border-gold/60" />
-          <div class="tick text-gold mt-5" style="font-size:10px">Patron</div>
+          <div id="site-text-patron-3-role" class="tick text-gold mt-5" style="font-size:10px">Patron</div>
           <h3 id="site-text-patron-3-name" class="font-display font-semibold text-xl mt-2">Alhaji Seidu Mahama</h3>
           <p id="site-text-patron-3-description" class="text-paper/50 text-xs mt-2 leading-relaxed">Former Chief Accountant, Ghana Health Service. Patron since 2021.</p>
         </article>
@@ -990,7 +998,7 @@
       <div class="w-13 h-13 p-3 rounded-xl bg-gold/15 inline-flex items-center justify-center mb-7"><i data-lucide="newspaper" class="w-6 h-6 text-gold"></i></div>
       <div class="tick text-gold mb-4">Library</div>
       <h1 class="font-display font-semibold text-4xl sm:text-6xl tracking-[-0.01em] leading-[1.05]">Publica<span class="font-serifit italic font-medium text-crimson">tions</span></h1>
-      <p class="mt-5 text-ink-soft leading-relaxed">Newsletters, articles, flyers, conference and congress notifications from the association's archive.</p>
+      <p class="mt-5 text-ink-soft leading-relaxed">Newsletters, articles, flyers, conference and congress notifications from the union's archive.</p>
     </div>
     <div id="pubs-full-grid" class="grid md:grid-cols-3 gap-5 sm:gap-6">
       <!-- populated dynamically by renderPublications() -->
@@ -1006,7 +1014,7 @@
       <h1 class="font-display font-semibold text-4xl sm:text-6xl tracking-[-0.01em] leading-[1.05]">Gall<span class="font-serifit italic font-medium text-crimson">ery</span></h1>
       <p class="mt-5 text-ink-soft leading-relaxed">A complete visual archive of congresses, trainings, outreach and national events.</p>
     </div>
-    <div id="gallery-full-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+    <div id="gallery-full-grid" class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
       <!-- populated dynamically by renderGallery() -->
     </div>
   </div>
@@ -1117,7 +1125,7 @@
           <p class="text-ink-soft text-sm leading-relaxed">For benevolence claims and urgent member welfare matters, contact your Regional Chapter Secretary directly — chapters resolve most welfare matters faster than the national office.</p>
         </div>
         <div class="reveal bg-white border border-ink/10 rounded-2xl p-7 sm:p-8" style="transition-delay:280ms">
-          <div class="tick text-gold mb-4">Follow the Association</div>
+          <div class="tick text-gold mb-4">Follow the Union</div>
           <div class="flex gap-2.5">
             <a href="#" aria-label="Facebook" class="w-10 h-10 rounded-lg border border-ink/15 flex items-center justify-center hover:bg-crimson hover:border-crimson hover:text-paper transition-all duration-300"><i data-lucide="facebook" class="w-4 h-4"></i></a>
             <a href="#" aria-label="Instagram" class="w-10 h-10 rounded-lg border border-ink/15 flex items-center justify-center hover:bg-crimson hover:border-crimson hover:text-paper transition-all duration-300"><i data-lucide="instagram" class="w-4 h-4"></i></a>
@@ -1192,8 +1200,30 @@
       </button>
     </div>
 
+    <!-- Section tabs -->
+    <div id="admin-tabs" class="flex items-center gap-2 overflow-x-auto pb-3 mb-10 border-b border-ink/10" style="scrollbar-width:none">
+      <button type="button" data-admin-tab="password" class="admin-tab-btn shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors">
+        <i data-lucide="key-round" class="w-4 h-4"></i> Password
+      </button>
+      <button type="button" data-admin-tab="notices" class="admin-tab-btn shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors">
+        <i data-lucide="megaphone" class="w-4 h-4"></i> Notices
+      </button>
+      <button type="button" data-admin-tab="images" class="admin-tab-btn shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors">
+        <i data-lucide="image" class="w-4 h-4"></i> Site Images
+      </button>
+      <button type="button" data-admin-tab="gallery" class="admin-tab-btn shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors">
+        <i data-lucide="images" class="w-4 h-4"></i> Gallery
+      </button>
+      <button type="button" data-admin-tab="publications" class="admin-tab-btn shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors">
+        <i data-lucide="newspaper" class="w-4 h-4"></i> Publications
+      </button>
+      <button type="button" data-admin-tab="documents" class="admin-tab-btn shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold whitespace-nowrap transition-colors">
+        <i data-lucide="file-down" class="w-4 h-4"></i> Documents
+      </button>
+    </div>
+
     <!-- Change Password -->
-    <div class="mb-16">
+    <div data-admin-panel="password" class="admin-panel">
       <div class="flex items-center gap-3 mb-6">
         <i data-lucide="key-round" class="w-5 h-5 text-crimson"></i>
         <h2 class="font-display font-semibold text-2xl">Change Password</h2>
@@ -1221,7 +1251,7 @@
     </div>
 
     <!-- Notices manager -->
-    <div class="mb-16">
+    <div data-admin-panel="notices" class="admin-panel hidden">
       <div class="flex items-center gap-3 mb-2">
         <i data-lucide="megaphone" class="w-5 h-5 text-crimson"></i>
         <h2 class="font-display font-semibold text-2xl">Notices</h2>
@@ -1239,7 +1269,7 @@
     </div>
 
     <!-- Site Images manager -->
-    <div class="mb-16">
+    <div data-admin-panel="images" class="admin-panel hidden">
       <div class="flex items-center gap-3 mb-2">
         <i data-lucide="image" class="w-5 h-5 text-crimson"></i>
         <h2 class="font-display font-semibold text-2xl">Site Images</h2>
@@ -1257,21 +1287,29 @@
     </div>
 
     <!-- Gallery manager -->
-    <div class="mb-16">
+    <div data-admin-panel="gallery" class="admin-panel hidden">
       <div class="flex items-center gap-3 mb-6">
         <i data-lucide="images" class="w-5 h-5 text-crimson"></i>
         <h2 class="font-display font-semibold text-2xl">Gallery Images</h2>
       </div>
-      <form id="gallery-form" class="grid sm:grid-cols-[1fr_1fr_auto] gap-3 bg-white border border-ink/10 rounded-xl p-5 mb-6">
-        <input type="file" id="gallery-file" accept="image/*" required class="text-sm file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-ink file:text-paper file:text-xs file:font-semibold file:cursor-pointer" />
-        <input type="text" id="gallery-caption" placeholder="Caption, e.g. Regional Conference — Tamale" required class="border border-ink/20 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-crimson" />
-        <button type="submit" class="btn inline-flex items-center justify-center gap-2 bg-crimson text-paper px-5 py-2.5 rounded-lg font-semibold text-sm whitespace-nowrap"><span class="btn-fill bg-ink"></span><i data-lucide="upload" class="w-4 h-4"></i> Add Image</button>
+      <form id="gallery-form" class="bg-white border border-ink/10 rounded-xl p-5 mb-6 space-y-3">
+        <div class="grid sm:grid-cols-[1fr_1fr] gap-3">
+          <div>
+            <input type="file" id="gallery-file" accept="image/*" class="text-sm file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-ink file:text-paper file:text-xs file:font-semibold file:cursor-pointer" />
+            <p id="gallery-file-hint" class="hidden text-[11px] text-ink-soft mt-1.5">Leave empty to keep the current image.</p>
+          </div>
+          <input type="text" id="gallery-caption" placeholder="Caption, e.g. Regional Conference — Tamale" required class="border border-ink/20 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-crimson" />
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="submit" class="btn flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-crimson text-paper px-5 py-2.5 rounded-lg font-semibold text-sm whitespace-nowrap"><span class="btn-fill bg-ink"></span><i data-lucide="upload" class="w-4 h-4"></i> <span id="gallery-submit-label">Add Image</span></button>
+          <button type="button" id="gallery-cancel" class="hidden w-10 h-10 shrink-0 rounded-lg border border-ink/20 flex items-center justify-center hover:border-crimson hover:text-crimson" aria-label="Cancel edit" title="Cancel edit"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
       </form>
       <div id="admin-gallery-list" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"><!-- populated by renderAdminGallery() --></div>
     </div>
 
     <!-- Publications manager -->
-    <div class="mb-16">
+    <div data-admin-panel="publications" class="admin-panel hidden">
       <div class="flex items-center gap-3 mb-6">
         <i data-lucide="newspaper" class="w-5 h-5 text-crimson"></i>
         <h2 class="font-display font-semibold text-2xl">Publications</h2>
@@ -1302,7 +1340,7 @@
     </div>
 
     <!-- Documents manager -->
-    <div>
+    <div data-admin-panel="documents" class="admin-panel hidden">
       <div class="flex items-center gap-3 mb-6">
         <i data-lucide="file-down" class="w-5 h-5 text-crimson"></i>
         <h2 class="font-display font-semibold text-2xl">Forms &amp; Documents</h2>
@@ -1433,7 +1471,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
 import {
   getFirestore, collection, doc, addDoc, deleteDoc, setDoc, updateDoc, deleteField,
-  onSnapshot, query, orderBy, serverTimestamp, getDocs, getDoc
+  onSnapshot, query, orderBy, serverTimestamp, Timestamp, getDocs, getDoc
 } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -1460,14 +1498,29 @@ const noticesCol = collection(db, 'notices');
    optional `fields` list of editable text pieces — each naming the
    id="site-text-<key>-<field>" element it fills and its default text. */
 const SITE_IMAGE_SLOTS = [
-  { key: 'home-hero', page: 'Home Page', label: 'Hero photo — "Continuous Professional Development Session"', defaultSrc: 'https://images.pexels.com/photos/8123816/pexels-photo-8123816.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', aspect: 'aspect-[4/5]' },
-  { key: 'home-about', page: 'Home Page', label: 'About-preview photo — two members reviewing facility accounts', defaultSrc: 'https://images.pexels.com/photos/8549944/pexels-photo-8549944.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', aspect: 'aspect-[4/3]' },
-  { key: 'home-what-we-do', page: 'Home Page', label: '"What We Do" photo — national training workshop', defaultSrc: 'https://images.pexels.com/photos/6950050/pexels-photo-6950050.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', aspect: 'aspect-[16/10]' },
+  { key: 'home-hero', page: 'Home Page', label: 'Hero photo — "Continuous Professional Development Session"', defaultSrc: 'https://images.pexels.com/photos/8123816/pexels-photo-8123816.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', aspect: 'aspect-[4/5]',
+    fields: [
+      { key: 'captionTitle', label: 'Photo Caption', elId: 'site-text-home-hero-caption-title', default: 'Continuous Professional Development Session' },
+      { key: 'captionSub', label: 'Photo Caption — Subtext', elId: 'site-text-home-hero-caption-sub', default: 'National Secretariat · 2026' },
+      { key: 'badgeYear', label: 'Badge — Year', elId: 'site-text-home-hero-badge-year', default: 'Est. 1988' },
+      { key: 'badgeSub', label: 'Badge — Subtext', elId: 'site-text-home-hero-badge-sub', default: '38 Yrs of Service' }
+    ] },
+  { key: 'home-about', page: 'Home Page', label: 'About-preview photo — two members reviewing facility accounts', defaultSrc: 'https://images.pexels.com/photos/8549944/pexels-photo-8549944.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', aspect: 'aspect-[4/3]',
+    fields: [
+      { key: 'badgeYears', label: 'Badge — Number of Years', elId: 'site-text-home-about-badge-years', default: '38' },
+      { key: 'badgeSub', label: 'Badge — Subtext', elId: 'site-text-home-about-badge-sub', default: 'Serving the Health Sector' }
+    ] },
+  { key: 'home-what-we-do', page: 'Home Page', label: '"What We Do" photo — national training workshop', defaultSrc: 'https://images.pexels.com/photos/6950050/pexels-photo-6950050.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', aspect: 'aspect-[16/10]',
+    fields: [
+      { key: 'quote', label: 'Quote (below photo)', elId: 'site-text-home-what-we-do-quote', default: 'HASAG gives every health accountant — from the smallest clinic to the largest teaching hospital — a professional home and a national voice.', multiline: true },
+      { key: 'quoteAttribution', label: 'Quote Attribution', elId: 'site-text-home-what-we-do-quote-attribution', default: 'Office of the President · National Secretariat' }
+    ] },
   { key: 'exec-president', page: 'Executives Page', label: 'National President', defaultSrc: 'https://images.pexels.com/photos/16291208/pexels-photo-16291208.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800', aspect: 'aspect-[3/4]', objectClass: 'object-cover object-top',
     fields: [
       { key: 'name', label: 'Name', elId: 'site-text-exec-president-name', default: 'Dr. Kwabena Asante Boateng' },
+      { key: 'badge', label: 'Photo Badge (overlay text)', elId: 'site-text-exec-president-badge', default: 'National President' },
       { key: 'position', label: 'Position / Title', elId: 'site-text-exec-president-position', default: 'National President · HASAG \u00a0\u00b7\u00a0 Elected 2025 — Kumasi Congress' },
-      { key: 'description', label: 'Description', elId: 'site-text-exec-president-description', default: "A career health-sector accountant with over two decades of service across district, regional and teaching hospital directorates, Dr. Boateng leads the Association's reform agenda — digitised dues administration, IFRS-aligned reporting, and a stronger welfare promise for every member." },
+      { key: 'description', label: 'Description', elId: 'site-text-exec-president-description', default: "A career health-sector accountant with over two decades of service across district, regional and teaching hospital directorates, Dr. Boateng leads the Union's reform agenda — digitised dues administration, IFRS-aligned reporting, and a stronger welfare promise for every member." },
       { key: 'email', label: 'Email Address', elId: 'site-text-exec-president-email', linkElId: 'site-text-exec-president-email-link', linkPrefix: 'mailto:', default: 'president@hasag.org.gh' }
     ] },
   { key: 'exec-vice-president', page: 'Executives Page', label: 'National Vice President', defaultSrc: 'https://images.pexels.com/photos/39308168/pexels-photo-39308168.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800', aspect: 'aspect-[4/5]', objectClass: 'object-cover object-top',
@@ -1513,22 +1566,26 @@ const SITE_IMAGE_SLOTS = [
   { key: 'elders-chairman', page: 'Executives Page', label: 'Council of Elders Chairman', defaultSrc: 'https://images.pexels.com/photos/8068725/pexels-photo-8068725.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800', aspect: 'aspect-[4/5]', objectClass: 'object-cover object-top',
     fields: [
       { key: 'name', label: 'Name', elId: 'site-text-elders-chairman-name', default: 'Eld. Samuel Ofori-Atta' },
+      { key: 'badge', label: 'Role Badge (overlay text)', elId: 'site-text-elders-chairman-badge', default: 'Chairman · Council of Elders' },
       { key: 'position', label: 'Position / Title', elId: 'site-text-elders-chairman-position', default: 'Retired Principal Accountant — Korle Bu Teaching Hospital' },
-      { key: 'description', label: 'Description', elId: 'site-text-elders-chairman-description', default: 'A founding member of the Association and custodian of its constitution, Elder Ofori-Atta chairs the Council of Elders — guiding the National Executive on governance, discipline and the preservation of the founding values of HASAG.' }
+      { key: 'description', label: 'Description', elId: 'site-text-elders-chairman-description', default: 'A founding member of the Union and custodian of its constitution, Elder Ofori-Atta chairs the Council of Elders — guiding the National Executive on governance, discipline and the preservation of the founding values of HASAG.', multiline: true }
     ] },
   { key: 'patron-1', page: 'Executives Page', label: 'Patron', defaultSrc: 'https://images.pexels.com/photos/11397093/pexels-photo-11397093.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800', aspect: 'aspect-square', objectClass: 'object-cover object-top', rounded: 'rounded-full', previewWidth: 'w-28 mx-auto',
     fields: [
       { key: 'name', label: 'Name', elId: 'site-text-patron-1-name', default: 'Elder Joshua Kwame Ayitey' },
+      { key: 'role', label: 'Role Label (e.g. Patron / Patroness)', elId: 'site-text-patron-1-role', default: 'Patron' },
       { key: 'description', label: 'Description', elId: 'site-text-patron-1-description', default: 'Former Director of Finance, Ministry of Health. Patron since 2014.' }
     ] },
   { key: 'patron-2', page: 'Executives Page', label: 'Patroness', defaultSrc: 'https://images.pexels.com/photos/18460522/pexels-photo-18460522.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800', aspect: 'aspect-square', objectClass: 'object-cover object-top', rounded: 'rounded-full', previewWidth: 'w-28 mx-auto',
     fields: [
       { key: 'name', label: 'Name', elId: 'site-text-patron-2-name', default: 'Nanahemaa Adwoa Pinamang' },
+      { key: 'role', label: 'Role Label (e.g. Patron / Patroness)', elId: 'site-text-patron-2-role', default: 'Patroness' },
       { key: 'description', label: 'Description', elId: 'site-text-patron-2-description', default: "Queen Mother and lifelong advocate for health workers' welfare. Patroness since 2018." }
     ] },
   { key: 'patron-3', page: 'Executives Page', label: 'Patron', defaultSrc: 'https://images.pexels.com/photos/11975215/pexels-photo-11975215.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=800', aspect: 'aspect-square', objectClass: 'object-cover object-top', rounded: 'rounded-full', previewWidth: 'w-28 mx-auto',
     fields: [
       { key: 'name', label: 'Name', elId: 'site-text-patron-3-name', default: 'Alhaji Seidu Mahama' },
+      { key: 'role', label: 'Role Label (e.g. Patron / Patroness)', elId: 'site-text-patron-3-role', default: 'Patron' },
       { key: 'description', label: 'Description', elId: 'site-text-patron-3-description', default: 'Former Chief Accountant, Ghana Health Service. Patron since 2021.' }
     ] }
 ];
@@ -1546,7 +1603,7 @@ const SEED_CONTENT = {
     { src: 'https://images.pexels.com/photos/9301158/pexels-photo-9301158.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', caption: 'Standards Review — Cape Coast' }
   ],
   publications: [
-    { image: 'https://images.pexels.com/photos/7821716/pexels-photo-7821716.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', tag: 'Newsletter', meta: 'Vol. 12 · Q3 2026', title: 'The Ledger — Quarterly Newsletter of the Association', author: 'National Secretariat' },
+    { image: 'https://images.pexels.com/photos/7821716/pexels-photo-7821716.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', tag: 'Newsletter', meta: 'Vol. 12 · Q3 2026', title: 'The Ledger — Quarterly Newsletter of the Union', author: 'National Secretariat' },
     { image: 'https://images.pexels.com/photos/8297351/pexels-photo-8297351.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', tag: 'Article', meta: 'Featured · August 2026', title: "Digitising Revenue Collection in Ghana's Hospitals", author: 'Research Committee' },
     { image: 'https://images.pexels.com/photos/6129198/pexels-photo-6129198.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940', tag: 'Congress Notice', meta: 'Notice · December 2026', title: '13th Biennial National Congress — Kumasi', author: 'General Secretary' }
   ],
@@ -1567,7 +1624,7 @@ async function seedIfEmpty(name, col, snapshot) {
   if (seededAlready[name] || !snapshot.empty) { seededAlready[name] = true; return; }
   seededAlready[name] = true;
   for (const item of SEED_CONTENT[name]) {
-    try { await addDoc(col, { ...item, createdAt: serverTimestamp() }); }
+    try { await addDoc(col, { ...item, createdAt: Timestamp.now() }); }
     catch (e) { console.error('Seed failed for ' + name, e); }
   }
 }
@@ -1640,13 +1697,20 @@ function galleryCardHTML(item, variant) {
   // variant: 'strip' (home-page horizontal scroller — fixed width, no delete),
   // 'grid' (full gallery page — fills its grid cell, no delete),
   // 'admin' (dashboard manager — fills its grid cell, has delete button).
-  const sizing = variant === 'strip' ? 'snap-start shrink-0 w-[270px] sm:w-[340px]' : 'w-full';
+  const sizing = variant === 'strip' ? 'snap-start shrink-0 w-[86vw] sm:w-[420px]' : 'w-full';
   const withDelete = variant === 'admin';
+  const aspectClass = variant === 'grid' ? 'aspect-[4/5] sm:aspect-[4/3]' : 'aspect-[4/3]';
+  const captionClass = variant === 'grid' ? 'tick text-ink-soft mt-3.5 text-[13px] sm:text-[9.5px]' : 'tick text-ink-soft mt-3';
+  const captionStyle = variant === 'grid' ? '' : ' style="font-size:9.5px"';
   return `
     <figure class="g-card ${sizing} relative group">
-      <div class="rounded-xl overflow-hidden aspect-[4/3] bg-cream border border-ink/10"><img src="${item.src}" alt="${escapeHTML(item.caption)}" class="w-full h-full object-cover" loading="lazy" /></div>
-      <figcaption class="tick text-ink-soft mt-3" style="font-size:9.5px">${escapeHTML(item.caption)}</figcaption>
-      ${withDelete ? `<button data-remove-gallery="${item.id}" class="absolute top-2 right-2 w-8 h-8 rounded-lg bg-ink/80 text-paper flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity" aria-label="Remove image"><i data-lucide="trash-2" class="w-4 h-4"></i></button>` : ''}
+      <div class="rounded-xl overflow-hidden ${aspectClass} bg-cream border border-ink/10"><img src="${item.src}" alt="${escapeHTML(item.caption)}" class="w-full h-full object-cover" loading="lazy" /></div>
+      <figcaption class="${captionClass}"${captionStyle}>${escapeHTML(item.caption)}</figcaption>
+      ${withDelete ? `
+      <div class="absolute top-2 right-2 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+        <button data-edit-gallery="${item.id}" class="w-8 h-8 rounded-lg bg-ink/80 text-paper flex items-center justify-center" aria-label="Edit image"><i data-lucide="pencil" class="w-4 h-4"></i></button>
+        <button data-remove-gallery="${item.id}" class="w-8 h-8 rounded-lg bg-ink/80 text-paper flex items-center justify-center" aria-label="Remove image"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+      </div>` : ''}
     </figure>`;
 }
 function renderGallery() {
@@ -1697,7 +1761,7 @@ function pubFeaturedCardHTML(item) {
   const badge = TAG_STYLE[item.tag] || 'bg-ink text-paper';
   return `
     <article class="pub-card pro-card bg-white border border-ink/10 rounded-2xl overflow-hidden h-full flex flex-col">
-      <div class="relative overflow-hidden aspect-[16/10] bg-cream">
+      <div class="relative overflow-hidden aspect-[16/9] sm:aspect-[16/10] bg-cream">
         <img src="${item.image}" alt="${escapeHTML(item.title)}" class="w-full h-full object-cover" loading="lazy" />
         <span class="absolute top-4 left-4 tick ${badge} px-3 py-1.5 rounded-md" style="font-size:9px">${escapeHTML(item.tag)}</span>
       </div>
@@ -1782,7 +1846,7 @@ function siteImageCardHTML(slot) {
   const hasCustomPhoto = !!current.src;
   const fieldsHTML = (slot.fields || []).map(field => {
     const value = (current[field.key] != null && current[field.key] !== '') ? current[field.key] : field.default;
-    const isMultiline = field.key === 'description';
+    const isMultiline = field.multiline || field.key === 'description';
     const inputType = field.key === 'email' ? 'email' : 'text';
     return `
       <div class="mt-2.5">
@@ -1946,11 +2010,29 @@ function isAdminUnlocked() {
 const adminSetupView = document.getElementById('admin-setup');
 const adminLoginView = document.getElementById('admin-login');
 const adminDashboard = document.getElementById('admin-dashboard');
+
+/* ═══════════ Admin dashboard: section tabs ═══════════
+   The Content Manager is split into named panels (Password, Notices,
+   Site Images, Gallery, Publications, Documents). Only one is shown
+   at a time; the tab bar switches between them instantly, client-side
+   — no reload, no re-fetching, each panel keeps its already-rendered
+   content underneath. */
+const adminTabBtns = document.querySelectorAll('.admin-tab-btn');
+const adminPanels = document.querySelectorAll('[data-admin-panel]');
+function setAdminTab(tab) {
+  const target = document.querySelector(`[data-admin-panel="${tab}"]`) ? tab : 'password';
+  adminPanels.forEach(p => p.classList.toggle('hidden', p.dataset.adminPanel !== target));
+  adminTabBtns.forEach(b => b.classList.toggle('active', b.dataset.adminTab === target));
+  document.getElementById('admin-tabs').scrollTo?.({ left: 0 });
+}
+adminTabBtns.forEach(btn => btn.addEventListener('click', () => setAdminTab(btn.dataset.adminTab)));
+
 function showAdminDashboard() {
   adminSetupView.classList.add('hidden');
   adminLoginView.classList.add('hidden');
   adminDashboard.classList.remove('hidden');
   renderAdminSiteImages(); renderAdminGallery(); renderAdminPubs(); renderAdminDocs(); renderAdminNotices();
+  setAdminTab('password');
   lucide.createIcons();
 }
 function showAdminLogin() {
@@ -2151,26 +2233,56 @@ document.getElementById('admin-siteimg-home').addEventListener('click', handleRe
 document.getElementById('admin-siteimg-executives').addEventListener('click', handleResetSiteImage);
 
 /* ───────── Admin: Gallery form + delete ───────── */
+let editingGalleryId = null;
+function resetGalleryForm() {
+  editingGalleryId = null;
+  document.getElementById('gallery-form').reset();
+  document.getElementById('gallery-file-hint').classList.add('hidden');
+  document.getElementById('gallery-submit-label').textContent = 'Add Image';
+  document.getElementById('gallery-cancel').classList.add('hidden');
+}
+document.getElementById('gallery-cancel').addEventListener('click', resetGalleryForm);
 document.getElementById('gallery-form').addEventListener('submit', async e => {
   e.preventDefault();
   const fileInput = document.getElementById('gallery-file');
   const caption = document.getElementById('gallery-caption').value.trim();
   const file = fileInput.files[0];
-  if (!file || !caption) return;
+  if (!caption) return;
+  if (!editingGalleryId && !file) return; // a new image needs a photo
   try {
-    const src = await fileToDataURL(file);
-    await addDoc(galleryCol, { src, caption, createdAt: serverTimestamp() });
-    e.target.reset();
+    const updates = { caption };
+    if (file) updates.src = await fileToDataURL(file);
+    if (editingGalleryId) {
+      await updateDoc(doc(db, 'gallery', editingGalleryId), updates);
+    } else {
+      await addDoc(galleryCol, { ...updates, createdAt: Timestamp.now() });
+    }
+    resetGalleryForm();
   } catch (err) {
     console.error('Could not save gallery image.', err);
     alert('Could not save — the image may be too large. Try a smaller image.');
   }
 });
 document.getElementById('admin-gallery-list').addEventListener('click', async e => {
-  const btn = e.target.closest('[data-remove-gallery]');
-  if (!btn) return;
-  try { await deleteDoc(doc(db, 'gallery', btn.dataset.removeGallery)); }
-  catch (err) { console.error('Could not remove image.', err); alert('Could not remove image.'); }
+  const editBtn = e.target.closest('[data-edit-gallery]');
+  if (editBtn) {
+    const item = siteContent.gallery.find(g => g.id === editBtn.dataset.editGallery);
+    if (!item) return;
+    editingGalleryId = item.id;
+    document.getElementById('gallery-caption').value = item.caption;
+    document.getElementById('gallery-file').value = '';
+    document.getElementById('gallery-file-hint').classList.remove('hidden');
+    document.getElementById('gallery-submit-label').textContent = 'Save Changes';
+    document.getElementById('gallery-cancel').classList.remove('hidden');
+    document.getElementById('gallery-form').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  const delBtn = e.target.closest('[data-remove-gallery]');
+  if (!delBtn) return;
+  try {
+    await deleteDoc(doc(db, 'gallery', delBtn.dataset.removeGallery));
+    if (editingGalleryId === delBtn.dataset.removeGallery) resetGalleryForm();
+  } catch (err) { console.error('Could not remove image.', err); alert('Could not remove image.'); }
 });
 
 /* ───────── Publication lightbox (Read button — every publication is a single image) ───────── */
@@ -2227,7 +2339,7 @@ document.getElementById('pub-form').addEventListener('submit', async e => {
     if (editingPubId) {
       await updateDoc(doc(db, 'publications', editingPubId), updates);
     } else {
-      await addDoc(pubsCol, { ...updates, createdAt: serverTimestamp() });
+      await addDoc(pubsCol, { ...updates, createdAt: Timestamp.now() });
     }
     resetPubForm();
   } catch (err) {
@@ -2280,7 +2392,7 @@ document.getElementById('notice-form').addEventListener('submit', async e => {
     if (editingNoticeId) {
       await updateDoc(doc(db, 'notices', editingNoticeId), { date, text });
     } else {
-      await addDoc(noticesCol, { date, text, createdAt: serverTimestamp() });
+      await addDoc(noticesCol, { date, text, createdAt: Timestamp.now() });
     }
     resetNoticeForm();
   } catch (err) {
@@ -2319,7 +2431,7 @@ document.getElementById('doc-form').addEventListener('submit', async e => {
   if (!file || !label) return;
   try {
     const data = await fileToDataURL(file);
-    await addDoc(docsCol, { label, icon, filename: file.name, data, createdAt: serverTimestamp() });
+    await addDoc(docsCol, { label, icon, filename: file.name, data, createdAt: Timestamp.now() });
     e.target.reset();
   } catch (err) {
     console.error('Could not save document.', err);
